@@ -1,0 +1,65 @@
+<view class="container">
+  <view class="userinfo">
+    <image wx:if="{{userInfo && userInfo.avatarUrl}}" class="userinfo-avatar" src="{{ userInfo.avatarUrl }}" background-size="cover"></image>
+    <text class="userinfo-nickname">{{ userInfo.nickName }}</text>
+  </view>
+  <view class="asset">
+    <view class='item' bindtap='goCoupon'>
+      <view>{{coupon}}</view>
+      <view>优惠券</view>
+    </view>
+    <view class='item right' bindtap='goAsset'>
+      <view>{{balance}}</view>
+      <view>余额</view>
+    </view>
+    <view class='item right' bindtap='goScore'>
+      <view>{{score}}</view>
+      <view>积分</view>
+    </view>
+  </view>
+  <view style="height:10rpx;background: #eee;width:100%;"></view>
+  <view class="my-item-no-arrow">
+    我的订单
+  </view>
+  <view class='order-shortcut'>
+    <view class='item' bindtap='goOrder' data-type="0">
+      <image class="icon" src="/images/order/topay.png" background-size="cover"></image>
+      <view class='text'>待付款</view>
+    </view>
+    <view class='item' bindtap='goOrder' data-type="1">
+      <image class="icon" src="/images/order/fahuo.png" background-size="cover"></image>
+      <view class='text'>待发货</view>
+    </view>
+    <view class='item' bindtap='goOrder' data-type="2">
+      <image class="icon" src="/images/order/shouhuo.png" background-size="cover"></image>
+      <view class='text'>待收货</view>
+    </view>
+    <view class='item' bindtap='goOrder' data-type="3">
+      <image class="icon" src="/images/order/shouhou.png" background-size="cover"></image>
+      <view class='text'>退款/售后</view>
+    </view>
+    <view class='item' bindtap='goOrder' data-type="4">
+      <image class="icon" src="/images/order/pj.png" background-size="cover"></image>
+      <view class='text'>全部订单</view>
+    </view>
+
+  </view>
+
+  <view style="height:10rpx;background: #eee;width:100%;"></view>
+  <view class="my-item">
+    <navigator url="/pages/ping-order-list/index" hover-class="navigator-hover">拼团订单</navigator>
+  </view>
+  <view class="my-item">
+    <navigator url="/pages/select-address/index" hover-class="navigator-hover">收货地址</navigator>
+  </view>
+  <view class="my-item">
+    <navigator  hover-class="navigator-hover" bindtap="contactUs">客服电话</navigator>
+  </view>
+  <view class="my-item">
+    <navigator  hover-class="navigator-hover" bindtap="aboutUs">关于我们</navigator>
+  </view>
+
+
+  <view class="version">邻邻柒科技提供支持 v{{ version }}</view>
+
+</view>
