@@ -12,7 +12,9 @@
     "pages/order-list/index",
     "pages/coupon-list/index",
     "pages/order-details/index",
-    "pages/order/refundApply"
+    "pages/order/refundApply",
+    "pages/wuliu/index",
+    "pages/ping-order-list/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -103,6 +103,15 @@ module.exports = {
   goodsDetail: (data) => {
     return request('/v1/goods/get_goods_by_id', false, 'post', data)
   },
+  pingtuanList: (data) => {
+    return request('/v1/ping_tuan_record/get_ping_tuan_record_list', false, 'post', data)
+  },
+  pingtuanSet: (data) => {
+    return request('/v1/ping_tuan_set/get_ping_tuan_set_list', false, 'post', data)
+  },
+  pingtuanOpen: (data) => {
+    return request('/v1/ping_tuan_record/add_ping_tuan_record', false, 'post', data)
+  },
   kanjiaList: (data) => {
     return request('/v1/kan_jia/get_kan_jia_list', false, 'post', data)
   },
@@ -160,6 +169,12 @@ module.exports = {
   orderList: (data) => {
     return request('/v1/order/get_order_list', false, 'post', data)
   },
+  pingTuanOrderStatistics: (data) => {
+    return request('/v1/order/ping_tuan_order_statistics', false, 'post', data)
+  },
+  pingTuanOrderList: (data) => {
+    return request('/v1/order/get_ping_tuan_order_list', false, 'post', data)
+  },
   orderDetail: (data) => {
     return request('/v1/order/get_order_by_id', false, 'post', data)
   },
@@ -170,10 +185,10 @@ module.exports = {
     return request('/v1/user/amount', false, 'post', data)
   },
   refundApplyDetail: (data) => {
-    return request('/v1/refund/get_by_id', false, 'post', data)
+    return request('/v1/refund_apply/get_refund_apply_by_order_id', false, 'post', data)
   },
   refundApply: (data) => {
-    return request('/v1/refund/create_refund', false, 'post', data)
+    return request('/v1/refund_apply/add_refund_apply', false, 'post', data)
   },
   uploadImage: (data) => {
     return request('/v1/image/upload_image', false, 'post', data)

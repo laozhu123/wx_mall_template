@@ -243,6 +243,13 @@ swiper-item image {
   padding: 30rpx 0;
   border-bottom: 1px solid #eee;
 }
+.pop-goods-info1{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 30rpx;
+  padding: 30rpx 0;
+}
 .pop-img-box{
   width: 120rpx;
   height: 120rpx;
@@ -298,6 +305,10 @@ swiper-item image {
 .size-label-box .label-item.active{
   color: #e64340;
   border: 1px solid #e64340;
+}
+.size-label-box .label-item.unable{
+  color: #e2e2e2;
+  border: 1px solid #d3d3d3;
 }
 .buy-num-box{
    display: flex;

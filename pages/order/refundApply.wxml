@@ -1,5 +1,5 @@
 <view class="page">
-  <form bindsubmit="bindSave" report-submit="true">
+  <form bindsubmit="uploadPics" report-submit="true">
   <view class="page__bd">
     <view class="weui-toptips weui-toptips_warn" wx:if="{{refundApplyDetail && refundApplyDetail.Status == 0}}">已申请，等待处理</view>
     <view class="weui-toptips weui-toptips_warn" wx:if="{{refundApplyDetail && refundApplyDetail.Status == 2}}">本次申请已拒绝，请联系客服</view>

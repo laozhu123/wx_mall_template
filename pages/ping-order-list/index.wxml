@@ -2,9 +2,7 @@
   <view wx:if='{{!hasRefund}}' class="status-box">
     <view bindtap="statusTap" class="status-label {{index == currentType ? 'active' : ''}}" wx:for-items="{{statusType}}" wx:key="{{index}}" data-index="{{index}}">
       {{item}}
-      <view class="jh-tab-bubble" wx:if="{{tabNum[index] > 0}}">
-        <view class="jh-tab-count">{{tabNum[index]}}</view>
-    </view>
+      <view class="{{tabClass[index]}}"></view>
     </view>
   </view>
   <view class="no-order" hidden="{{orderList.length > 0 ? true : false}}">

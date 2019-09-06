@@ -3,10 +3,10 @@ const app = getApp()
 const WXAPI = require('../../wxapi/main')
 Page({
   data: {
-    statusType: ["待付款", "待发货", "待收货", "退款/售后", "全部"],
+    statusType: ["待付款", "拼团中", "拼成功", "拼失败"],
     hasRefund: false,
     currentType: 0,
-    tabNum: [0, 0, 0, 0, 0]
+    tabClass: ["", "", "", "", ""]
   },
   statusTap: function (e) {
     const curType = e.currentTarget.dataset.index;
@@ -122,18 +122,34 @@ Page({
   },
   getOrderStatistics: function () {
     var that = this;
-    WXAPI.orderStatistics({}).then(function (res) {
+    WXAPI.pinTuanOrderStatistics({}).then(function (res) {
       if (res.code == 0) {
-        var tabNum = that.data.tabNum
-
-        tabNum[0] = res.data.count_id_no_pay
-        tabNum[1] = res.data.count_id_no_transfer
-        tabNum[2] = res.data.count_id_no_confirm
-        tabNum[3] = res.data.count_id_no_reputation
+        var tabClass = that.data.tabClass;
+        if (res.data.count_id_no_pay > 0) {
+          tabClass[0] = "red-dot"
+        } else {
+          tabClass[0] = ""
+        }
+        if (res.data.count_id_no_transfer > 0) {
+          tabClass[1] = "red-dot"
+        } else {
+          tabClass[1] = ""
+        }
+        if (res.data.count_id_no_confirm > 0) {
+          tabClass[2] = "red-dot"
+        } else {
+          tabClass[2] = ""
+        }
+        if (res.data.count_id_no_reputation > 0) {
+          tabClass[3] = "red-dot"
+        } else {
+          tabClass[3] = ""
+        }
 
         that.setData({
-          tabNum: tabNum
+          tabClass: tabClass,
         });
+        console.log(tabClass)
       }
     })
   },
@@ -144,12 +160,11 @@ Page({
       token: wx.getStorageSync('token')
     };
     postData.hasRefund = that.data.hasRefund;
-    postData.type = 1
     if (!postData.hasRefund) {
-      postData.status = that.data.currentType;
+      postData.status = that.data.currentType+1;
     }
     this.getOrderStatistics();
-    WXAPI.orderList(postData).then(function (res) {
+    WXAPI.pingTuanOrderList(postData).then(function (res) {
       if (res.code == 0) {
         that.setData({
           orderList: res.data.list,

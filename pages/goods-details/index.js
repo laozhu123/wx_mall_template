@@ -69,7 +69,7 @@ Page({
     const goodsDetailRes = await WXAPI.goodsDetail({ id: goodsId, type: 1 })
     if (goodsDetailRes.code == 0) {
       var selectSizeTemp = "";
-      if (goodsDetailRes.data.properties) {
+      if (goodsDetailRes.data.properties.length > 0) {
         for (var i = 0; i < goodsDetailRes.data.properties.length; i++) {
           selectSizeTemp = selectSizeTemp + " " + goodsDetailRes.data.properties[i].Name;
         }
@@ -95,10 +95,12 @@ Page({
         buyNumber: (goodsDetailRes.data.basicInfo.Stores > 0) ? 1 : 0,
         currentPages: getCurrentPages()
       }
-      if (goodsDetailRes.data.basicInfo.pingtuan) {
-        const pingtuanSetRes = await WXAPI.pingtuanSet(goodsId)
+      if (goodsDetailRes.data.basicInfo.PingTuan === 1) {
+        const pingtuanSetRes = await WXAPI.pingtuanSet({ goods_id: goodsId })
         if (pingtuanSetRes.code == 0) {
-          _data.pingtuanSet = pingtuanSetRes.data
+          if (pingtuanSetRes.data.length > 0) {
+            _data.pingtuanSet = pingtuanSetRes.data[0]
+          }
         }
       }
       that.setData(_data);
@@ -124,13 +126,21 @@ Page({
     this.bindGuiGeTap();
   },
   toPingtuan: function (e) {
+    if (e.currentTarget.dataset.hasjoin == 1) {
+      wx.showModal({
+        title: '提示',
+        content: '已参与该拼单',
+        showCancel: false
+      })
+      return
+    }
     let pingtuanopenid = 0
     if (e.currentTarget.dataset.pingtuanopenid) {
       pingtuanopenid = e.currentTarget.dataset.pingtuanopenid
     }
     this.setData({
       shopType: "toPingtuan",
-      selectSizePrice: this.data.goodsDetail.basicInfo.pingtuanPrice,
+      selectSizePrice: this.data.goodsDetail.basicInfo.PingTuanPrice,
       pingtuanopenid: pingtuanopenid
     });
     this.bindGuiGeTap();
@@ -147,8 +157,16 @@ Page({
    * 规格选择弹出框隐藏
    */
   closePopupTap: function () {
+    for (var i = 0; i < this.data.goodsDetail.properties.length; i++) {
+      for (var j = 0; j < this.data.goodsDetail.properties[i].ChildsCurGoods.length; j++) {
+        this.data.goodsDetail.properties[i].ChildsCurGoods[j].active = false
+        this.data.goodsDetail.properties[i].ChildsCurGoods[j].unable = false
+      }
+    }
     this.setData({
-      hideShopPopup: true
+      goodsDetail: this.data.goodsDetail,
+      hideShopPopup: true,
+      canSubmit: false,
     })
   },
   numJianTap: function () {
@@ -184,11 +202,81 @@ Page({
     */
     // 取消该分类下的子栏目所有的选中状态
     var childs = that.data.goodsDetail.properties[e.currentTarget.dataset.propertyindex].ChildsCurGoods;
+    var index = -1
     for (var i = 0; i < childs.length; i++) {
+      if (that.data.goodsDetail.properties[e.currentTarget.dataset.propertyindex].ChildsCurGoods[i].active == true) {
+        index = i
+      }
       that.data.goodsDetail.properties[e.currentTarget.dataset.propertyindex].ChildsCurGoods[i].active = false;
     }
+    
     // 设置当前选中状态
-    that.data.goodsDetail.properties[e.currentTarget.dataset.propertyindex].ChildsCurGoods[e.currentTarget.dataset.propertychildindex].active = true;
+    if (index != e.currentTarget.dataset.propertychildindex) {
+      that.data.goodsDetail.properties[e.currentTarget.dataset.propertyindex].ChildsCurGoods[e.currentTarget.dataset.propertychildindex].active = true;
+    }
+
+    var selectNum = 0
+    var parentIndex = 0 //用于只选择一个的时候
+    var childIndex = [-1, -1]
+    for (var i = 0; i < that.data.goodsDetail.properties.length; i++) {
+      childs = that.data.goodsDetail.properties[i].ChildsCurGoods;
+      for (var j = 0; j < childs.length; j++) {
+        if (childs[j].active) {
+          selectNum++;
+          parentIndex = i;
+          childIndex[i] = j;
+          break
+        }
+      }
+    }
+    if (that.data.goodsDetail.properties.length == 2) {
+      if (selectNum == 0) {
+        for (var i = 0; i < that.data.goodsDetail.properties.length; i++) {
+          childs = that.data.goodsDetail.properties[i].ChildsCurGoods;
+          for (var j = 0; j < childs.length; j++) {
+            childs[j].unable = false;
+          }
+        }
+      } else if (selectNum == 1) {
+        var otherIndex = 1 - parentIndex
+        var proIdStorePriceStr = that.data.goodsDetail.properties[parentIndex].ChildsCurGoods[childIndex[parentIndex]].ProIdStorePrice;
+        var proIdStorePrices = proIdStorePriceStr.split("|");
+        for (var k = 0; k < proIdStorePrices.length; k++) {
+          var psp = proIdStorePrices[k].split(":");
+          for (var l = 0; l < that.data.goodsDetail.properties[otherIndex].ChildsCurGoods.length; l++) {
+            if (psp[0] == that.data.goodsDetail.properties[otherIndex].ChildsCurGoods[l].id) {
+              if (psp[1] > 0) {
+                that.data.goodsDetail.properties[otherIndex].ChildsCurGoods[l].unable = false
+              } else {
+                that.data.goodsDetail.properties[otherIndex].ChildsCurGoods[l].unable = true
+              }
+            }
+          }
+        }
+        for (var k = 0; k < that.data.goodsDetail.properties[parentIndex].ChildsCurGoods.length;k++){
+          that.data.goodsDetail.properties[parentIndex].ChildsCurGoods[k].unable = false
+        }
+      }else if (selectNum == 2){
+        for (var parentIndex = 0; parentIndex <= 1; parentIndex++){
+          var otherIndex = 1 - parentIndex
+          var proIdStorePriceStr = that.data.goodsDetail.properties[parentIndex].ChildsCurGoods[childIndex[parentIndex]].ProIdStorePrice;
+          var proIdStorePrices = proIdStorePriceStr.split("|");
+          for (var k = 0; k < proIdStorePrices.length; k++) {
+            var psp = proIdStorePrices[k].split(":");
+            for (var l = 0; l < that.data.goodsDetail.properties[otherIndex].ChildsCurGoods.length; l++) {
+              if (psp[0] == that.data.goodsDetail.properties[otherIndex].ChildsCurGoods[l].id) {
+                if (psp[1] > 0) {
+                  that.data.goodsDetail.properties[otherIndex].ChildsCurGoods[l].unable = false
+                } else {
+                  that.data.goodsDetail.properties[otherIndex].ChildsCurGoods[l].unable = true
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
     // 获取所有的选中规格尺寸数据
     var needSelectNum = that.data.goodsDetail.properties.length;
     var curSelectNum = 0;
@@ -204,9 +292,26 @@ Page({
           curSelectNum++;
           propertyChildIds = propertyChildIds + that.data.goodsDetail.properties[i].id + ":" + childs[j].id + ",";
           propertyChildNames = propertyChildNames + that.data.goodsDetail.properties[i].Name + ":" + childs[j].Name + "  ";
-          selectSizePrice = childs[j].Price
+          if (that.data.shopType == "toPingtuan") {
+            selectSizePrice = childs[j].PingTuanPrice
+          } else {
+            selectSizePrice = childs[j].Price
+          }
           totalScoreToPay = childs[j].Score
           stores = childs[j].Stores
+        }
+      }
+    }
+    if (that.data.goodsDetail.properties.length == 2){
+      if (childIndex[0] > -1 && childIndex[1] > -1){
+        var psps = that.data.goodsDetail.properties[0].ChildsCurGoods[childIndex[0]].ProIdStorePrice.split("|")
+        var id = that.data.goodsDetail.properties[1].ChildsCurGoods[childIndex[1]].id
+        for (var i = 0; i < psps.length; i++){
+          var psp = psps[i].split(":")
+          if (psp[0] == id){
+            stores = psp[1]
+            selectSizePrice = psp[2]
+          }
         }
       }
     }
@@ -288,13 +393,6 @@ Page({
     let shoptype = e.currentTarget.dataset.shoptype
     console.log(shoptype)
     if (this.data.goodsDetail.properties && !this.data.canSubmit) {
-      if (!this.data.canSubmit) {
-        wx.showModal({
-          title: '提示',
-          content: '请选择商品规格！',
-          showCancel: false
-        })
-      }
       this.bindGuiGeTap();
       wx.showModal({
         title: '提示',
@@ -321,11 +419,12 @@ Page({
     this.closePopupTap();
     if (shoptype == 'toPingtuan') {
       if (this.data.pingtuanopenid) {
+        console.log(this.data.pingtuanopenid)
         wx.navigateTo({
           url: "/pages/to-pay-order/index?orderType=buyNow&pingtuanOpenId=" + this.data.pingtuanopenid
         })
       } else {
-        WXAPI.pingtuanOpen(that.data.goodsDetail.basicInfo.id, wx.getStorageSync('token')).then(function (res) {
+        WXAPI.pingtuanOpen({ goods_id: that.data.goodsDetail.basicInfo.id }).then(function (res) {
           if (res.code != 0) {
             wx.showToast({
               title: res.msg,
@@ -353,8 +452,8 @@ Page({
     // 加入购物车
     var shopCarMap = {};
     shopCarMap.goodsId = this.data.goodsDetail.basicInfo.id;
-    shopCarMap.pic = this.data.goodsDetail.basicInfo.pic;
-    shopCarMap.name = this.data.goodsDetail.basicInfo.name;
+    shopCarMap.pic = this.data.goodsDetail.basicInfo.Pic;
+    shopCarMap.name = this.data.goodsDetail.basicInfo.Name;
     // shopCarMap.label=this.data.goodsDetail.basicInfo.id; 规格尺寸 
     shopCarMap.propertyChildIds = this.data.propertyChildIds;
     shopCarMap.label = this.data.propertyChildNames;
@@ -405,9 +504,6 @@ Page({
     shopCarMap.propertyChildIds = this.data.propertyChildIds;
     shopCarMap.label = this.data.propertyChildNames;
     shopCarMap.price = this.data.selectSizePrice;
-    if (shoptype == 'toPingtuan') {
-      shopCarMap.price = this.data.goodsDetail.basicInfo.pingtuanPrice;
-    }
     shopCarMap.score = this.data.totalScoreToPay;
     shopCarMap.left = "";
     shopCarMap.active = true;
@@ -474,10 +570,10 @@ Page({
   },
   pingtuanList: function (goodsId) {
     var that = this;
-    WXAPI.pingtuanList(goodsId).then(function (res) {
+    WXAPI.pingtuanList({ id: goodsId }).then(function (res) {
       if (res.code == 0) {
         that.setData({
-          pingtuanList: res.data
+          pingtuanList: res.data.list
         });
       }
     })

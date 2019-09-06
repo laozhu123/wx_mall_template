@@ -126,20 +126,3 @@
   color:#e64340;
   margin-bottom: 20rpx;
 }
-.jh-tab-bubble {
-    background-color: #E64340;
-    text-align: center;
-    justify-content: flex-start;
-    align-content: center;
-    position: absolute;
-    top: 1px;
-    right: 2px;
-    width: 10px;
-    height: 10px;
-    line-height: 10px;
-    border-radius: 5px;
-}
-.jh-tab-count {
-    color: white;
-    font-size: 6px;
-}

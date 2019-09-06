@@ -14,15 +14,15 @@ Page({
       { name: '我要换货', value: '2' },
     ],
 
-    logisticsStatus:0,
+    logisticsStatus: 0,
     logisticsStatusItems: [
       { name: '未收到货', value: '0', checked: true },
       { name: '已收到货', value: '1' }
     ],
 
     reasons: [
-      "不喜欢/不想要", 
-      "空包裹", 
+      "不喜欢/不想要",
+      "空包裹",
       "未按约定时间发货",
       "快递/物流一直未送达",
       "货物破损已拒签",
@@ -33,7 +33,7 @@ Page({
       "少件/漏发",
       "包装/商品破损",
       "发票问题",
-      ],
+    ],
     reasonIndex: 0,
 
     files: [],
@@ -45,17 +45,17 @@ Page({
       amount: e.amount
     });
   },
-  onShow(){
+  onShow() {
     const _this = this
-    WXAPI.refundApplyDetail(wx.getStorageSync('token'), _this.data.orderId).then(res => {
+    WXAPI.refundApplyDetail({ order_id: _this.data.orderId }).then(res => {
       if (res.code == 0) {
         _this.setData({
-          refundApplyDetail: res.data[0]  // baseInfo, pics
+          refundApplyDetail: res.data  // baseInfo, pics
         })
       }
     })
   },
-  refundApplyCancel(){
+  refundApplyCancel() {
     const _this = this
     WXAPI.refundApplyCancel(wx.getStorageSync('token'), _this.data.orderId).then(res => {
       if (res.code == 0) {
@@ -110,28 +110,7 @@ Page({
       urls: that.data.files // 需要预览的图片http链接列表
     })
   },
-  async uploadPics(){
-    const _this = this;
-    for (let i = 0; i< _this.data.files.length; i++) {
-      wx.uploadFile({
-        url: 'https://www.007spy.cn/v1/image/upload_image', //仅为示例，非真实的接口地址
-        filePath: _this.data.files[i],
-        name: 'file',
-        header: { "Content-Type": "multipart/form-data" },
-        success: function (res) {
-          var data = res.data
-          //do something
-          _this.data.pics.push(res.data)
-          console.log(res)
-        },
-        fail: function(res){
-          console.log(res)
-        }
-      })
-      
-    }
-  },
-  async bindSave (e) {
+  bindSave: function (e) {
     const _this = this;
     // _this.data.orderId
     // _this.data.type
@@ -145,15 +124,14 @@ Page({
     if (!remark) {
       remark = ''
     }
-    // 上传图片
-    await _this.uploadPics()
     // _this.data.pics
     WXAPI.refundApply(
       {
         order_id: _this.data.orderId,
-        type: _this.data.type,
+        typ: _this.data.type,
         logistics_status: _this.data.logisticsStatus,
         reason: _this.data.reasons[_this.data.reasonIndex],
+        reason_index: _this.data.reasonIndex,
         money: amount,
         remark: remark,
         pics: _this.data.pics.join()
@@ -185,5 +163,47 @@ Page({
         })
       }
     })
+  },
+  uploadPics: function (e) {
+    const _this = this;
+    _this.data.pics = []
+    let successNum = 0;
+    let failNum = 0;
+    for (let i = 0; i < _this.data.files.length; i++) {
+      wx.uploadFile({
+        url: 'https://www.007spy.cn/v1/image/upload_image', //仅为示例，非真实的接口地址
+        filePath: _this.data.files[i],
+        name: 'file',
+        header: { "Content-Type": "multipart/form-data" },
+        success: function (res) {
+          var data = res.data
+          data = data.split(',')[1].split('"')[3]
+          //do something
+          _this.data.pics.push(data)
+          successNum++
+          if (successNum == _this.data.files.length) {
+            _this.bindSave(e)
+          }
+        },
+        fail: function (res) {
+          if (failNum == 0) {
+            wx.showToast({
+              title: '图片上传失败',
+              icon: '',
+              image: '',
+              duration: 0,
+              mask: true,
+              success: function (res) { },
+              fail: function (res) { },
+              complete: function (res) { },
+            })
+            failNum++
+          }
+
+        }
+      })
+
+    }
   }
+  
 });

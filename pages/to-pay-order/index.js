@@ -83,6 +83,7 @@ Page({
     let postData = {
       goodsJsonStr: that.data.goodsJsonStr,
       peisongType: that.data.peisongType,
+      pingtuanId: that.data.pingtuanOpenId,
     };
     WXAPI.getTotalFee(postData).then(function (res) {
       if (that.data.curAddressData){
@@ -141,7 +142,7 @@ Page({
       peisongType: that.data.peisongType
     };
     if (that.data.pingtuanOpenId) {
-      postData.pingtuanOpenId = that.data.pingtuanOpenId
+      postData.pingtuanId = that.data.pingtuanOpenId
     }
     if (that.data.isNeedLogistics > 0 && postData.peisongType == 'kd') {
       if (!that.data.curAddressData) {

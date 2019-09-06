@@ -88,27 +88,6 @@
       </view>
     </view>
   </view>
-  <view wx-if="{{kanjiaList.length > 0 && activeCategoryId == 0}}" class="weui-panel weui-panel_access" style='margin-top:0px;'>
-    <view class="weui-panel__hd">疯狂砍价</view>
-    <view class="weui-panel__bd">
-      <view wx:for-items="{{kanjiaList}}" wx:key="*this" class="weui-media-box weui-media-box_appmsg">
-        <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-          <image class="weui-media-box__thumb" src="{{kanjiaGoodsMap[item.GoodsId].Pic}}" />
-        </view>
-        <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
-          <view class="weui-media-box__title">{{kanjiaGoodsMap[item.GoodsId].Name}}</view>
-          <view class="weui-media-box__desc">{{kanjiaGoodsMap[item.GoodsId].Characteristic}}</view>
-          <view class="weui-media-box__info" style='color:#333;line-height:2em;'>
-            <view class="weui-media-box__info__meta">原价:{{item.OriginalPrice}}</view>
-            <view class="weui-media-box__info__meta" style='color:#e64340;'>底价:{{item.MinPrice}}</view>
-            <view class="weui-media-box__info__meta" style='float:right;'>
-              <button class="weui-btn mini-btn" type="warn" size="mini" bindtap="toDetailsTap" data-id="{{item.goodsId}}">砍价</button>
-            </view>
-          </view>
-        </view>
-      </view>
-    </view>
-  </view>
   <block wx:if="{{pingtuanList.length > 0 && activeCategoryId == 0}}">
     <view class='space'></view>
     <view class="weui-loadmore weui-loadmore_line">

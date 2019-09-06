@@ -33,43 +33,42 @@
     <view class="weui-cells weui-cells_after-title">
       <view class="weui-cell">
         <view class="weui-cell__bd">已成团</view>
-        <view class="weui-cell__ft">{{pingtuanSet.numberSucccess}}</view>
+        <view class="weui-cell__ft">{{pingtuanSet.NumberSuccess}}</view>
       </view>
       <view class="weui-cell">
         <view class="weui-cell__bd">成团人数</view>
-        <view class="weui-cell__ft">{{pingtuanSet.numberPersion}}</view>
+        <view class="weui-cell__ft">{{pingtuanSet.NumberPerson}}</view>
       </view>
       <view class="weui-cell">
         <view class="weui-cell__bd">退款条件</view>
-        <view class="weui-cell__ft">{{pingtuanSet.timeoutHours}}小时未成团</view>
+        <view class="weui-cell__ft">{{pingtuanSet.TimeoutHours}}小时未成团</view>
       </view>
       <view class="weui-cell">
         <view class="weui-cell__bd">截止</view>
-        <view class="weui-cell__ft">{{pingtuanSet.dateEnd}}</view>
+        <view class="weui-cell__ft">{{pingtuanSet.DateEnd}}</view>
       </view>
     </view>
   </view>
   
   <view class='space'></view>
   <view class="goods-des-info" style="margin-top:35rpx;" wx:if="{{pingtuanList}}">
-    <view class="label-title" style="border-bottom:1px solid #eee;">{{pingtuanList.length}}人在拼单，可直接参与</view>
+    <view class="label-title" style="border-bottom:1px solid #eee;" wx:if="{{pingtuanList.length > 0}}">{{pingtuanList.length}}人在拼单，可直接参与</view>
     <view class="goods-text" style="margin-top:15rpx;border-bottom:1px solid #eee;" wx:for="{{pingtuanList}}" wx:key="id">
       <view style="width:150rpx;float:left;">
-        <image style="width: 150rpx; height: 150rpx;" src="{{item.apiExtUser.avatarUrl}}"></image>
-        <view style="width:150rpx;text-align:center;">{{item.apiExtUser.nick}}</view>
+        <image style="width: 150rpx; height: 150rpx;" src="{{item.AvatarUrl}}"></image>
+        <view style="width:150rpx;text-align:center;">{{item.Nick}}</view>
       </view>
       <view style="width:500rpx;float:left;margin-left:35rpx;">
         <view>已有
-          <text style="color:red"> {{item.helpNumber}} </text>人参与</view>
-        <view style="color: #B0B0B0;font-size:24rpx;">截止: {{item.dateEnd}}</view>
-        <button type="warn" size="mini" data-pingtuanopenid="{{item.id}}" bindtap="toPingtuan"> 去拼单 </button>
+          <text style="color:red"> {{item.NowNum}} </text>人参与</view>
+        <view style="color: #B0B0B0;font-size:24rpx;">截止: {{item.EndTime}}</view>
+        <button type="warn" size="mini" data-pingtuanopenid="{{item.id}}" data-hasjoin="{{item.HasJoin}}" bindtap="toPingtuan" wx:if="{{item.HasJoin == 0}}"> 去拼单 </button>
+        <button type="warn" size="mini" data-pingtuanopenid="{{item.id}}" data-hasjoin="{{item.HasJoin}}" bindtap="toPingtuan" wx:else> 已参与 </button>
       </view>
     </view>
   </view>
-  <view wx:if="{{hasMoreSelect}}" class="row-arrow" bindtap="bindGuiGeTap">
-    {{selectSize}}
-  </view>
-  <view class="goods-des-info">
+  
+  <view class="goods-des-info" style="margin-top:35rpx;">
     <view class="label-title">商品介绍</view>
     <view class="goods-text">
       <template is="wxParse" data="{{wxParseData:article.nodes}}" />
@@ -107,10 +106,10 @@
       <view class="shop-num">({{shopNum}})</view>
       <view style='position:absolute;bottom:10rpx;'> 购物车 </view>
     </view>
-    <view wx:if="{{!goodsDetail.basicInfo.pingtuan}}" class="join-shop-cart" bindtap="toAddShopCar">加入购物车</view>
-    <view wx:if="{{!goodsDetail.basicInfo.pingtuan}}" class="now-buy" bindtap="tobuy">立即购买</view>
-    <view wx:if="{{goodsDetail.basicInfo.pingtuan}}" class="join-shop-cart" bindtap="tobuy">单独购买</view>
-    <view wx:if="{{goodsDetail.basicInfo.pingtuan}}" class="now-buy" bindtap="toPingtuan">发起拼团</view>
+    <view wx:if="{{goodsDetail.basicInfo.PingTuan === 0}}" class="join-shop-cart" bindtap="toAddShopCar">加入购物车</view>
+    <view wx:if="{{goodsDetail.basicInfo.PingTuan === 0}}" class="now-buy" bindtap="tobuy">立即购买</view>
+    <view wx:if="{{goodsDetail.basicInfo.PingTuan === 1}}" class="join-shop-cart" bindtap="tobuy">单独购买</view>
+    <view wx:if="{{goodsDetail.basicInfo.PingTuan === 1}}" data-hasjoin="0" class="now-buy" bindtap="toPingtuan">发起拼团</view>
   </view>
   <view class="show-popup" hidden="{{hideShopPopup}}" catchtouchmove="true">
     <view class="popup-mask" bindtap="closePopupTap"></view>
@@ -129,7 +128,7 @@
         <block wx:for="{{goodsDetail.properties}}" wx:for-item="property" wx:for-index="idx" wx:key="id">
           <view class="label">{{property.Name}}</view>
           <view class="label-item-box">
-            <view class="label-item {{item.active ? 'active' : '' }}" wx:for="{{property.ChildsCurGoods}}" wx:key="id" bindtap="labelItemTap" data-propertyindex="{{idx}}" data-propertyid="{{property.id}}" data-propertyname="{{property.Name}}" data-propertychildindex="{{index}}"
+            <view class="label-item {{item.unable ? 'unable' : (item.active ? 'active' : '') }}" wx:for="{{property.ChildsCurGoods}}" wx:key="id" bindtap="{{item.unable ? '' : 'labelItemTap'}}" data-propertyindex="{{idx}}" data-propertyid="{{property.id}}" data-propertyname="{{property.Name}}" data-propertychildindex="{{index}}"
               data-propertychildid="{{item.id}}" data-propertychildname="{{item.name}}">
               {{item.Name}}
             </view>
