@@ -32,6 +32,24 @@ const request = (url, needSubDomain, method, data) => {
                   return;
                 }
                 wx.setStorageSync('token', res.data.token)
+                data.access_token = res.data.token
+                wx.request({
+                  url: _url,
+                  method: method,
+                  data: data,
+                  header: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                  },
+                  success(request){
+                    resolve(request.data)
+                  },
+                  fail(error){
+                    reject(error)
+                  },
+                  complete(aaa){
+                    //加载完成
+                  }
+                })
               })
             }
           })
