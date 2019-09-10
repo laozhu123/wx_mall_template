@@ -2,15 +2,15 @@ const app = getApp()
 const CONFIG = require('../../config.js')
 const WXAPI = require('../../wxapi/main')
 Page({
-	data: {
-    balance:0.00,
-    coupon:10,
-    score:0,
-    score_sign_continuous:0
+  data: {
+    balance: 0.00,
+    coupon: 10,
+    score: 0,
+    score_sign_continuous: 0
   },
-	onLoad() {
-    
-	},	
+  onLoad() {
+
+  },
   onShow() {
     let that = this;
     let userInfo = wx.getStorageSync('userInfo')
@@ -24,14 +24,23 @@ Page({
     }
     this.getUserAmount();
   },
-  aboutUs : function () {
+  userInfoHandler: function(res) {
+    let that = this;
+    // 可以将 res 发送给后台解码出 unionId
+    app.globalData.userInfo = res.detail.userInfo
+    wx.setStorageSync('userInfo', res.detail.userInfo)
+    that.setData({
+      userInfo: res.detail.userInfo
+    })
+  },
+  aboutUs: function() {
     wx.showModal({
       title: '关于我们',
       content: '欢迎使用本系统，快速搭建商城小程序，请联系我们。微信：qqq2830123',
-      showCancel:false
+      showCancel: false
     })
   },
-  contactUs: function () {
+  contactUs: function() {
     wx.showModal({
       title: '联系我们',
       content: '客服电话17764507394',
@@ -41,17 +50,16 @@ Page({
           wx.makePhoneCall({
             phoneNumber: '17764507394'
           })
-        } else if (res.cancel) {
-        }
+        } else if (res.cancel) {}
       }
-      
+
     })
   },
 
   // 获取积分、余额、优惠券信息
-  getUserAmount: function () {
+  getUserAmount: function() {
     var that = this;
-    WXAPI.userAmount({}).then(function (res) {
+    WXAPI.userAmount({}).then(function(res) {
       if (res.code == 0) {
         that.setData({
           coupon: res.data.coupon,
@@ -65,22 +73,22 @@ Page({
   //   app.navigateToLogin = false;
   //   app.goLoginPageTimeOut()
   // },
-  goAsset: function () {
+  goAsset: function() {
     wx.navigateTo({
       url: "/pages/asset/index"
     })
   },
-  goCoupon: function () {
+  goCoupon: function() {
     wx.navigateTo({
       url: "/pages/coupon-list/index"
     })
   },
-  goScore: function () {
+  goScore: function() {
     wx.navigateTo({
       url: "/pages/score/index"
     })
   },
-  goOrder: function (e) {
+  goOrder: function(e) {
     wx.navigateTo({
       url: "/pages/order-list/index?type=" + e.currentTarget.dataset.type
     })

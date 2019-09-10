@@ -19,7 +19,6 @@ const request = (url, needSubDomain, method, data) => {
           //重新获取token, 也许有问题这个东西不知道的
           wx.login({
             success: function (res) {
-              console.log(res)
               login(res.code).then(function (res) {
                 if (res.code != 0) {
                   // 登录错误
