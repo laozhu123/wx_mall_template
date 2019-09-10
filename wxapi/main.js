@@ -135,6 +135,18 @@ module.exports = {
   coupons: (data) => {
     return request('/v1/user_coupon/get_user_coupon_list_by_user_id', false, 'post', data)
   },
+  getCanRobCoupons: (data) => {
+    return request('/v1/coupon_template/get_coupon_template_list', false, 'post', data)
+  },
+  robCoupons: (data) => {
+    return request('/v1/user_coupon/user_rob_coupon_by_id', false, 'post', data)
+  },
+  robCouponsByPwd: (data) => {
+    return request('/v1/user_coupon/user_rob_coupon_by_pwd', false, 'post', data)
+  },
+  myCoupons: (data) => {
+    return request('/v1/user_coupon/get_user_coupon_list_by_user_id', false, 'post', data)
+  },
   banners: (data) => {
     return request('/v1/banner_image/get_banner_image_list', false, 'post', data)
   },
@@ -146,9 +158,6 @@ module.exports = {
   },
   goodsReputation: (data) => {
     return request('/v1/reputation/get_reputation_list_by_goods_id', false, 'post', data)
-  },
-  getMyCouponList: (data) => {
-    return request('/v1/user_coupon/get_user_coupon_list_by_user_id', false, 'post', data)
   },
   defaultAddress: (data) => {
     return request('/v1/address/get_default_address', false, 'post', data)
@@ -210,4 +219,5 @@ module.exports = {
   uploadImage: (data) => {
     return request('/v1/image/upload_image', false, 'post', data)
   },
+  
 }

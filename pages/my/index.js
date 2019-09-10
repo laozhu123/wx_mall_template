@@ -24,15 +24,15 @@ Page({
     }
     this.getUserAmount();
   },
-  userInfoHandler: function(res) {
-    let that = this;
-    // 可以将 res 发送给后台解码出 unionId
-    app.globalData.userInfo = res.detail.userInfo
-    wx.setStorageSync('userInfo', res.detail.userInfo)
-    that.setData({
-      userInfo: res.detail.userInfo
-    })
-  },
+  // userInfoHandler: function(res) {
+  //   let that = this;
+  //   // 可以将 res 发送给后台解码出 unionId
+  //   app.globalData.userInfo = res.detail.userInfo
+  //   wx.setStorageSync('userInfo', res.detail.userInfo)
+  //   that.setData({
+  //     userInfo: res.detail.userInfo
+  //   })
+  // },
   aboutUs: function() {
     wx.showModal({
       title: '关于我们',
@@ -80,7 +80,7 @@ Page({
   },
   goCoupon: function() {
     wx.navigateTo({
-      url: "/pages/coupon-list/index"
+      url: "/pages/coupons/index"
     })
   },
   goScore: function() {

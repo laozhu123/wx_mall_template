@@ -113,3 +113,13 @@
   margin: 20rpx;
   width: 100%;
 }
+.wxlogin{
+  text-align: center;
+  height: 100%;
+  width: 250rpx;
+  line-height: 100rpx;
+  background-color: #e64340;
+  color:#fff;
+  font-size: 34rpx;
+  margin-bottom: 15rpx;
+}

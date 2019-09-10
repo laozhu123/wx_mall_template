@@ -252,7 +252,7 @@ Page({
   },
   getMyCoupons: function () {
     var that = this;
-    WXAPI.getMyCouponList({}).then(function (res) {
+    WXAPI.coupons({}).then(function (res) {
       if (res.code == 0) {
         var coupons = res.data.list.filter(entity => {
           return entity.MinUsePrice <= that.data.allGoodsAndYunPrice;
