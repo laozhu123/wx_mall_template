@@ -6,37 +6,65 @@
 
 .userinfo {
 	display: flex;
-	flex-direction: column;
-	align-items: center;
-  width: 750rpx;
+	flex-direction: row;
+	align-items: left;
+  padding: 30rpx;
 }
+
+.userInfoBg {
+  background-color: #20B31C;
+  margin: 30rpx 3%;
+  border-radius: 30rpx;
+  width: 94%;
+}
+
+.order-out-bg{
+  background-color: #FEFEFE;
+  margin: 0 3%;
+  border-radius: 10rpx;
+  width: 94%; 
+  border: 1px solid #ddd;
+}
+
 .userinfo-avatar {
-	width: 160rpx;
-	height: 160rpx;
+	width: 130rpx;
+	height: 130rpx;
+  border-radius: 65rpx;
+  margin-left: 15rpx;
 }
 .userinfo-nickname {
-  margin-top: 20rpx;
+  margin-top: 10rpx;
+  margin-bottom: 10rpx;
+  font-size: 15px;
+  margin-left: 25rpx;
+  color: #fff;
+}
+
+.userinfo-tel {
   margin-bottom: 20rpx;
-  font-size: 14px;
+  font-size: 15px;
+  margin-left: 25rpx;
+  color: #fff;
+}
+
+.nick-tel{
+  display: flex;
+  flex-direction: column;
 }
 
 .asset {
   display: flex;
-  border-top: 1px solid #eee;
   padding-top:20rpx;
   padding-bottom:20rpx;
+  justify-content: space-around;
 }
 .asset .item {
   display: flex;
   flex-direction: column;
-  width:250rpx;
   text-align: center;
   font-size: 13px;
+  color: #fff;
   line-height: 20px;
-  color:#333;
-}
-.asset .right {
-  border-left: 1px solid #eee;
 }
 
 .version {
@@ -51,23 +79,24 @@
 }
 
 .my-item{
-    width: 100%;
-    background: url(https://cdn.it120.cc/images/weappshop/arrow-right.png) no-repeat 750rpx center;
-    background-size: 16rpx auto,750rpx auto;
+    width: 92%;
+    background: url(https://cdn.it120.cc/images/weappshop/arrow-right.png) no-repeat 98% center;
+    background-size: 20rpx auto,98% auto;
     border-bottom: 1px solid #eee;
-    height: 80rpx;
-    line-height: 80rpx;
-    padding-left: 100rpx;
-    font-size:14px;
+    height: 100rpx;
+    line-height: 100rpx;
+    font-size:15px;
+    display: flex;
+    align-items: center;
 }
 
 .my-item-no-arrow{
-    width: 100%;
+    width: 90%;
     border-bottom: 1px solid #eee;
     height: 80rpx;
     line-height: 80rpx;
-    padding-left: 100rpx;
-    font-size:14px;
+    padding-left: 30rpx;
+    font-size:16px;
 }
 
 .about{
@@ -84,27 +113,31 @@
   display: flex;
   padding-top: 20rpx;
   padding-bottom: 20rpx;
+  background-color: #E6E6E6;
+  margin: 30rpx;
+  border-radius: 10rpx;
+  justify-content: space-around;
 }
 .order-shortcut .item {
   display: flex;
   flex-direction: column;
-  width: 150rpx;
   text-align: center;
+  width: 17%;
+  align-items: center;
 }
 .order-shortcut .item .icon {
   width: 67rpx;
   height: 67rpx;
-  margin-left: 45rpx;
 }
 .order-shortcut .item .text {
   font-size: 12px;
+  color: #a3a3a3;
 }
 .to-authorize{
   border: none;
   padding: 0rpx;
   margin: 0rpx;
   background: none;
-  border: none;
   height: auto;
   line-height: auto;
 }
@@ -113,13 +146,8 @@
   margin: 20rpx;
   width: 100%;
 }
-.wxlogin{
-  text-align: center;
-  height: 100%;
-  width: 250rpx;
-  line-height: 100rpx;
-  background-color: #e64340;
-  color:#fff;
-  font-size: 34rpx;
-  margin-bottom: 15rpx;
+
+.icon1 {
+  width: 55rpx;
+  height: 55rpx;
 }

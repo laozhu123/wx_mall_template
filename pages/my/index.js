@@ -22,6 +22,7 @@ Page({
         version: CONFIG.version
       })
     }
+    this.getUserInfo();
     this.getUserAmount();
   },
   // userInfoHandler: function(res) {
@@ -41,18 +42,19 @@ Page({
     })
   },
   contactUs: function() {
+    var bossName = wx.getStorageSync("bossName")
+    var tel = wx.getStorageSync("mallTel")
     wx.showModal({
       title: '联系我们',
-      content: '客服电话17764507394',
+      content: '客服电话：' + tel,
       confirmText: '拨打',
       success(res) {
         if (res.confirm) {
           wx.makePhoneCall({
-            phoneNumber: '17764507394'
+            phoneNumber: tel
           })
-        } else if (res.cancel) {}
+        } else if (res.cancel) { }
       }
-
     })
   },
 
@@ -63,12 +65,24 @@ Page({
       if (res.code == 0) {
         that.setData({
           coupon: res.data.coupon,
-          balance: res.data.balance.toFixed(2),
+          balance: (res.data.balance/100).toFixed(2),
           score: res.data.score
         });
       }
     })
   },
+
+  getUserInfo: function(){
+    var that = this;
+    WXAPI.getUserInfo({}).then(function(res){
+      if (res.code == 0) {
+        that.setData({
+          tel: res.data.Tel.slice(0, 3) + '****' + res.data.Tel.slice(7,11)
+        })
+      }
+    })
+  },
+
   // relogin:function(){
   //   app.navigateToLogin = false;
   //   app.goLoginPageTimeOut()
@@ -88,9 +102,27 @@ Page({
       url: "/pages/score/index"
     })
   },
+  goToUserInfo: function () {
+    wx.navigateTo({
+      url: "/pages/user-info/index"
+    })
+  },
+  
   goOrder: function(e) {
     wx.navigateTo({
       url: "/pages/order-list/index?type=" + e.currentTarget.dataset.type
     })
-  }
+  },
+
+  goAddress: function (e) {
+    wx.navigateTo({
+      url: "/pages/select-address/index"
+    })
+  },
+  goPinOrder: function (e) {
+    wx.navigateTo({
+      url: "/pages/ping-order-list/index"
+    })
+  },
+  
 })

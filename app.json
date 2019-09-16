@@ -15,7 +15,11 @@
     "pages/wuliu/index",
     "pages/ping-order-list/index",
     "pages/authorize/index",
-    "pages/coupons/index"
+    "pages/coupons/index",
+    "pages/asset/index",
+    "pages/score/index",
+    "pages/user-info/index",
+    "pages/user-info/sign"
   ],
   "window": {
     "backgroundTextStyle": "light",

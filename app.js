@@ -23,6 +23,7 @@ App({
             success: res => {
               this.globalData.userInfo = res.userInfo
               wx.setStorageSync('userInfo', res.userInfo)
+              WXAPI.updateUserInfo({ nick: res.userInfo.nickName, sex: res.userInfo.gender, icon: res.userInfo.avatarUrl })
               // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
               // 所以此处加入 callback 以防止这种情况
               if (this.userInfoReadyCallback) {
@@ -36,11 +37,13 @@ App({
     //  获取商城名称
     WXAPI.getAppDetail().then(function (res) {
       if (res.code == 0) {
-          wx.setStorageSync("mallName",res.data.Name);
-          wx.setStorageSync("ALLOW_SELF_COLLECTION", res.data.ZiTi);
+        wx.setStorageSync("mallName", res.data.Name);
+        wx.setStorageSync("ALLOW_SELF_COLLECTION", res.data.ZiTi);
+        wx.setStorageSync("mallTel", res.data.Tel)
+        wx.setStorageSync("bossName", res.data.BossName)
       }
     })
-    
+
   },
   globalData: {
     userInfo: null

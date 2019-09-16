@@ -104,7 +104,7 @@ Page({
         }
       }
       that.setData(_data);
-      WxParse.wxParse('article', 'html', goodsDetailRes.data.content, that, 5);
+      WxParse.wxParse('article', 'html', goodsDetailRes.data.basicInfo.Content, that, 5);
     }
   },
   goShopCar: function () {
@@ -612,6 +612,22 @@ Page({
   toPoster: function (e) { // 千万生成海报界面
     wx.navigateTo({
       url: "/pages/goods-details/poster?goodsid=" + e.currentTarget.dataset.goodsid
+    })
+  },
+  contactBoss: function (e) {
+    var bossName = wx.getStorageSync("bossName")
+    var tel = wx.getStorageSync("mallTel")
+    wx.showModal({
+      title: '联系我们',
+      content: '客服电话：'+tel,
+      confirmText: '拨打',
+      success(res) {
+        if (res.confirm) {
+          wx.makePhoneCall({
+            phoneNumber: tel
+          })
+        } else if (res.cancel) { }
+      }
     })
   }
 })

@@ -17,15 +17,14 @@ Page({
     coupons: [],
     youhuijine: 0, //优惠券金额
     curCoupon: null, // 当前选择使用的优惠券
-    allowSelfCollection: '0', // 是否允许到店自提
-    peisongType: 'zq' // 配送方式 kd,zq 分别表示快递/到店自取
+    allowSelfCollection: 0, // 是否允许到店自提
+    allowKd: 0, // 是否允许快递
+    peisongType: 'zq', // 配送方式 kd,zq 分别表示快递/到店自取
+
+    expressMoneyLocal: 0,
+    expressMoneyOut: 0,
   },
-  onShow: function () {
-    let allowSelfCollection = wx.getStorageSync('ALLOW_SELF_COLLECTION')
-    if (!allowSelfCollection || allowSelfCollection != '1') {
-      allowSelfCollection = '0'
-      this.data.peisongType = 'kd'
-    }
+  onShow: function() {
     const that = this;
     let shopList = [];
     //立即购买下单
@@ -46,15 +45,43 @@ Page({
         });
       }
     }
+    console.log(shopList)
+    that.getExpressInfo(shopList)
     that.setData({
       goodsList: shopList,
-      allowSelfCollection: allowSelfCollection,
-      peisongType: that.data.peisongType
     });
     that.initShippingAddress();
   },
 
-  onLoad: function (e) {
+  getExpressInfo: function(list) {
+    let that = this
+    var idNums = ""
+    for (let i = 0; i < list.length; i++) {
+      if (idNums != "") {
+        idNums += "|" + list[i].goodsId + ":" + list[i].number
+      } else {
+        idNums += list[i].goodsId + ":" + list[i].number
+      }
+    }
+    WXAPI.getExpressPrice({ id_nums: idNums}).then(res => {
+      if (res.code == 0) {
+        var all = that.data.allGoodsPrice
+        if (that.data.peisongType == 'kd'){
+          all += res.data.expressMoneyLocal
+        }
+        that.setData({
+          allowSelfCollection: res.data.ziqu,
+          allowKd: res.data.kuaidi,
+          expressMoneyLocal: res.data.expressMoneyLocal,
+          expressMoneyOut: res.data.expressMoneyOut,
+          allGoodsAndYunPrice: all,
+          yunPrice: res.data.expressMoneyLocal,
+        })
+      }
+    })
+  },
+
+  onLoad: function(e) {
     let _data = {
       isNeedLogistics: 1
     }
@@ -67,7 +94,7 @@ Page({
     this.setData(_data);
   },
 
-  getDistrictId: function (obj, aaa) {
+  getDistrictId: function(obj, aaa) {
     if (!obj) {
       return "";
     }
@@ -77,7 +104,7 @@ Page({
     return aaa;
   },
 
-  getTotalFee: function () {
+  getTotalFee: function() {
     var that = this;
 
     let postData = {
@@ -85,36 +112,38 @@ Page({
       peisongType: that.data.peisongType,
       pingtuanId: that.data.pingtuanOpenId,
     };
-    WXAPI.getTotalFee(postData).then(function (res) {
-      if (that.data.curAddressData){
+    WXAPI.getTotalFee(postData).then(function(res) {
+      if (that.data.curAddressData) {
+        var all = that.data.allGoodsPrice
+        if (that.data.peisongType == 'kd') {
+          all += res.data.expressMoneyLocal
+        }
         that.setData({
           isNeedLogistics: res.data.isNeedLogistics,
           allGoodsPrice: res.data.amountTotle,
-          allGoodsAndYunPrice: res.data.amountLogistics + res.data.amountTotle,
-          yunPrice: res.data.amountLogistics
+          allGoodsAndYunPrice: all,
         });
-      }else{
+      } else {
         that.setData({
           isNeedLogistics: res.data.isNeedLogistics,
           allGoodsPrice: res.data.amountTotle,
           allGoodsAndYunPrice: res.data.amountTotle,
-          yunPrice: 0
         });
       }
-      
+
       that.getMyCoupons();
       return;
     })
   },
   radioChange(e) {
     if (e.detail.value == 'kd') {
-      if (this.data.curAddressData){
+      if (this.data.curAddressData) {
         this.setData({
-          yunPrice: 30,
-          allGoodsAndYunPrice: this.data.allGoodsPrice + 30,
+          yunPrice: this.data.expressMoneyLocal,
+          allGoodsAndYunPrice: this.data.allGoodsPrice + this.data.expressMoneyLocal,
           peisongType: e.detail.value
         })
-      }else{
+      } else {
         this.setData({
           peisongType: e.detail.value
         })
@@ -129,7 +158,7 @@ Page({
     }
   },
 
-  createOrder: function (e) {
+  createOrder: function(e) {
     var that = this;
     var remark = ""; // 备注信息
     if (e) {
@@ -155,7 +184,7 @@ Page({
         return;
       }
       if (postData.peisongType == 'kd') {
-        postData.address = that.data.curAddressData.ProvinceStr + that.data.curAddressData.CityStr + that.data.curAddressData.AreaStr+that.data.curAddressData.Address;
+        postData.address = that.data.curAddressData.ProvinceStr + that.data.curAddressData.CityStr + that.data.curAddressData.AreaStr + that.data.curAddressData.Address;
         postData.linkMan = that.data.curAddressData.People;
         postData.mobile = that.data.curAddressData.Tel;
         postData.code = that.data.curAddressData.Code;
@@ -165,7 +194,7 @@ Page({
       postData.couponId = that.data.curCoupon.id;
     }
 
-    WXAPI.orderCreate(postData).then(function (res) {
+    WXAPI.orderCreate(postData).then(function(res) {
       if (res.code != 0) {
         wx.showModal({
           title: '错误',
@@ -187,9 +216,9 @@ Page({
       });
     })
   },
-  initShippingAddress: function () {
+  initShippingAddress: function() {
     var that = this;
-    WXAPI.defaultAddress({}).then(function (res) {
+    WXAPI.defaultAddress({}).then(function(res) {
       if (res.code == 0) {
         that.setData({
           curAddressData: res.data
@@ -202,7 +231,7 @@ Page({
     })
     that.processYunfei();
   },
-  processYunfei: function () {
+  processYunfei: function() {
     var that = this;
     var goodsList = this.data.goodsList;
     var goodsJsonStr = "[";
@@ -240,19 +269,19 @@ Page({
     });
     that.getTotalFee();
   },
-  addAddress: function () {
+  addAddress: function() {
     wx.navigateTo({
       url: "/pages/address-add/index"
     })
   },
-  selectAddress: function () {
+  selectAddress: function() {
     wx.navigateTo({
       url: "/pages/select-address/index"
     })
   },
-  getMyCoupons: function () {
+  getMyCoupons: function() {
     var that = this;
-    WXAPI.coupons({}).then(function (res) {
+    WXAPI.coupons({}).then(function(res) {
       if (res.code == 0) {
         var coupons = res.data.list.filter(entity => {
           return entity.MinUsePrice <= that.data.allGoodsAndYunPrice;
@@ -266,7 +295,7 @@ Page({
       }
     })
   },
-  bindChangeCoupon: function (e) {
+  bindChangeCoupon: function(e) {
     const selIndex = e.detail.value[0] - 1;
     if (selIndex == -1) {
       this.setData({
@@ -281,5 +310,5 @@ Page({
       curCoupon: this.data.coupons[selIndex]
     });
   }
-  
+
 })

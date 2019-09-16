@@ -219,5 +219,13 @@ module.exports = {
   uploadImage: (data) => {
     return request('/v1/image/upload_image', false, 'post', data)
   },
-  
+  updateUserInfo: (data) => {
+    return request('/v1/user/update_user', false, 'post', data)
+  },
+  getUserInfo: (data) => {
+    return request('/v1/user/get_user_by_id', false, 'post', data)
+  },
+  getExpressPrice: (data) => {
+    return request('/v1/express/get_express_money', false, 'post', data)
+  },
 }

@@ -70,6 +70,7 @@ Page({
     }
     console.log(e.detail.userInfo)
     wx.setStorageSync('userInfo', e.detail.userInfo)
+    WXAPI.updateUserInfo({ nick: e.detail.userInfo.nickName, sex: e.detail.userInfo.gender, icon: e.detail.userInfo.avatarUrl })
     app.navigateToLogin = false
     wx.navigateBack();
   }

@@ -22,10 +22,10 @@
         <view class="row-box" wx:if="{{isNeedLogistics > 0}}">
             <view class="row-label">配送方式</view>
             <radio-group bindchange="radioChange">
-              <label class="radio">
+              <label class="radio" wx:if="{{allowKd == 1}}">
                 <radio value="kd" checked="{{peisongType == 'kd'}}" /> 快递
               </label>
-              <label class="radio" wx:if='{{allowSelfCollection == "1"}}'>
+              <label class="radio" wx:if='{{allowSelfCollection == 1}}'>
                 <radio value="zq" checked="{{peisongType == 'zq'}}" /> 到店自取
               </label>
             </radio-group>
@@ -66,7 +66,7 @@
             <view class="row-label">商品金额</view>
             <view class="right-text">¥ {{allGoodsPrice}}</view>
         </view>
-        <view class="row-box" wx:if="{{isNeedLogistics > 0 && yunPrice > 0}}">
+        <view class="row-box" wx:if="{{peisongType == 'kd' && yunPrice > 0}}">
             <view class="row-label">运费</view>
             <view class="right-text">+ ¥ {{yunPrice}}</view>
         </view>
