@@ -19,7 +19,7 @@
         </view>
      </view>
      <view class="peisong-way">
-        <view class="row-box" wx:if="{{isNeedLogistics > 0}}">
+        <view class="row-box">
             <view class="row-label">配送方式</view>
             <radio-group bindchange="radioChange">
               <label class="radio" wx:if="{{allowKd == 1}}">
@@ -30,7 +30,7 @@
               </label>
             </radio-group>
         </view>
-        <view class="address-box" wx:if="{{peisongType == 'kd' && isNeedLogistics > 0}}">
+        <view class="address-box" wx:if="{{peisongType == 'kd'}}">
           <view class="add-address" hidden="{{curAddressData}}">
               <view class="title" bindtap="addAddress">新增收货地址</view>
           </view>
@@ -61,8 +61,8 @@
      </view>
 
 
-     <view class="goods-info" wx:if="{{(isNeedLogistics > 0 && yunPrice > 0) || (!hasNoCoupons)}}">
-        <view class="row-box" wx:if="{{isNeedLogistics > 0 && yunPrice > 0}}">
+     <view class="goods-info" wx:if="{{(peisongType=='kd' && yunPrice > 0) || (!hasNoCoupons)}}">
+        <view class="row-box" wx:if="{{peisongType == 'kd' && yunPrice > 0}}">
             <view class="row-label">商品金额</view>
             <view class="right-text">¥ {{allGoodsPrice}}</view>
         </view>

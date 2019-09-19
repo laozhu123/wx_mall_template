@@ -1,0 +1,81 @@
+/* pages/order/judge.wxss */
+Page{
+  background-color: #f2f2f2;
+}
+.a-goods{
+    width: 720rpx;
+    margin-left: 30rpx;
+    display: flex;
+    /*justify-content: space-between;*/
+    border-top: 1px solid #eee;
+    padding: 30rpx 30rpx 30rpx 0;
+}
+
+.a-goods .img-box{
+    width: 160rpx;
+    height:160rpx;
+    overflow: hidden;
+    margin-right: 20rpx;
+    background-color: #d8d8d8;
+}
+
+.img-box .img{
+    width: 160rpx;
+    height:160rpx;
+}
+.a-goods .text-box{
+    width: 510rpx;
+    box-sizing: border-box;
+    padding-top: 10rpx;
+}
+.a-goods .text-box .arow{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+ }
+.a-goods .text-box .arow .goods-name{
+     width: 360rpx;
+     font-size:26rpx;
+     height: 74rpx;
+     color:#000000;
+     line-height: 1.6;
+     overflow: hidden;
+ }
+.a-goods .text-box .arow01{
+    margin-bottom: 30rpx;
+}
+.a-goods .text-box .arow .goods-price{
+    font-size:26rpx;
+    color:#000000;
+    align-self: flex-start;
+}
+.a-goods .text-box .arow .goods-label{
+    font-size: 26rpx;
+    color: #999;
+}
+.a-goods .text-box .arow .goods-num{
+    font-size: 26rpx;
+    color: #999;
+}
+
+.star{
+  width: 27px;
+  height: 27px;
+  margin-left:8px;
+}
+
+.out{
+  font-size: 13px;
+  color: #999;
+  display:flex;
+  align-items: center; 
+  margin-top: 13px;
+}
+
+.num{
+  position: absolute;
+  right: 30rpx;
+  bottom: 10rpx;
+  font-size: 13px;
+  color: #ccc;
+}

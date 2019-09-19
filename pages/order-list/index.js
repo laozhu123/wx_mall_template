@@ -3,7 +3,7 @@ const app = getApp()
 const WXAPI = require('../../wxapi/main')
 Page({
   data: {
-    statusType: ["待付款", "待发货", "待收货", "退款/售后", "全部"],
+    statusType: ["待支付", "待发货", "待收货", "待评价", "全部"],
     hasRefund: false,
     currentType: 0,
     tabNum: [0, 0, 0, 0, 0]
@@ -143,11 +143,13 @@ Page({
     var postData = {
       token: wx.getStorageSync('token')
     };
-    postData.hasRefund = that.data.hasRefund;
     postData.type = 1
-    if (!postData.hasRefund) {
+    if (that.data.currentType == 4){
+      postData.status = -1
+    }else{
       postData.status = that.data.currentType;
     }
+    if (postData.status)
     this.getOrderStatistics();
     WXAPI.orderList(postData).then(function (res) {
       if (res.code == 0) {
@@ -178,5 +180,31 @@ Page({
   onReachBottom: function () {
     // 页面上拉触底事件的处理函数
 
+  },
+  judgeOrder: function(e){
+    const orderId = e.currentTarget.dataset.id;
+    wx.navigateTo({
+      url: "/pages/order/judge?id=" + orderId
+    })
+  },
+  receive: function(e) {
+    var that = this
+    const orderId = e.currentTarget.dataset.id;
+    WXAPI.updateOrder({id: orderId, status: 3}).then(function(res){
+      if (res.code == 0){
+        wx.showToast({
+          title: '收货成功',
+        })
+        that.setData({
+          currentType: 3
+        });
+        that.onShow()
+
+      }else{
+        wx.showToast({
+          title: '收货失败',
+        })
+      }
+    })
   }
 })

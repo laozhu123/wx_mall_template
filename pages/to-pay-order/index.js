@@ -5,7 +5,6 @@ Page({
   data: {
     totalScoreToPay: 0,
     goodsList: [],
-    isNeedLogistics: 0, // 是否需要物流信息
     allGoodsPrice: 0,
     yunPrice: 0,
     allGoodsAndYunPrice: 0,
@@ -83,7 +82,6 @@ Page({
 
   onLoad: function(e) {
     let _data = {
-      isNeedLogistics: 1
     }
     if (e.orderType) {
       _data.orderType = e.orderType
@@ -114,18 +112,16 @@ Page({
     };
     WXAPI.getTotalFee(postData).then(function(res) {
       if (that.data.curAddressData) {
-        var all = that.data.allGoodsPrice
+        var all = res.data.amountTotle
         if (that.data.peisongType == 'kd') {
-          all += res.data.expressMoneyLocal
+          all += that.data.expressMoneyLocal
         }
         that.setData({
-          isNeedLogistics: res.data.isNeedLogistics,
           allGoodsPrice: res.data.amountTotle,
           allGoodsAndYunPrice: all,
         });
       } else {
         that.setData({
-          isNeedLogistics: res.data.isNeedLogistics,
           allGoodsPrice: res.data.amountTotle,
           allGoodsAndYunPrice: res.data.amountTotle,
         });
@@ -173,7 +169,7 @@ Page({
     if (that.data.pingtuanOpenId) {
       postData.pingtuanId = that.data.pingtuanOpenId
     }
-    if (that.data.isNeedLogistics > 0 && postData.peisongType == 'kd') {
+    if (postData.peisongType == 'kd') {
       if (!that.data.curAddressData) {
         wx.hideLoading();
         wx.showModal({
@@ -235,7 +231,6 @@ Page({
     var that = this;
     var goodsList = this.data.goodsList;
     var goodsJsonStr = "[";
-    var isNeedLogistics = 1;
     var allGoodsPrice = 0;
 
 
@@ -246,9 +241,6 @@ Page({
     }
     for (let i = 0; i < goodsList.length; i++) {
       let carShopBean = goodsList[i];
-      if (carShopBean.logistics) {
-        isNeedLogistics = 1;
-      }
       allGoodsPrice += carShopBean.price * carShopBean.number;
 
       var goodsJsonStrTmp = '';
@@ -264,7 +256,6 @@ Page({
     goodsJsonStr += "]";
     //console.log(goodsJsonStr);
     that.setData({
-      isNeedLogistics: isNeedLogistics,
       goodsJsonStr: goodsJsonStr
     });
     that.getTotalFee();

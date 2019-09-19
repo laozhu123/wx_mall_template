@@ -4,23 +4,17 @@ Page({
   data: {
     orderId: 1,
     amount: 999.00,
-
+    max: 0,
     refundApplyDetail: undefined,
 
-    type: 0,
-    typeItems: [
-      { name: '我要退款(无需退货)', value: '0', checked: true },
-      { name: '我要退货退款', value: '1' },
-      { name: '我要换货', value: '2' },
-    ],
+    types: ["我要退款(无需退货)", "我要退货退款","我要换货"],
+    typeIndex: 0,
 
-    logisticsStatus: 0,
-    logisticsStatusItems: [
-      { name: '未收到货', value: '0', checked: true },
-      { name: '已收到货', value: '1' }
-    ],
+    logisticsStatuses: ["点击选择货物状态","未收到货","已收到货"],
+    logisticsStatusIndex: 0,
 
     reasons: [
+      "点击选择申请原因",
       "不喜欢/不想要",
       "空包裹",
       "未按约定时间发货",
@@ -37,27 +31,39 @@ Page({
     reasonIndex: 0,
 
     files: [],
-    pics: []
+    pics: [],
+    content: "",
+    num: 0,
+    tel: ""
   },
   onLoad: function (e) {
     this.setData({
       orderId: e.id,
-      amount: e.amount
+      amount: e.amount,
+      max: e.amount,
     });
-  },
-  onShow() {
     const _this = this
     WXAPI.refundApplyDetail({ order_id: _this.data.orderId }).then(res => {
       if (res.code == 0) {
         _this.setData({
-          refundApplyDetail: res.data  // baseInfo, pics
+          refundApplyDetail: res.data,  // baseInfo, pics
+          content: res.data.Remark,
+          amount: res.data.Money,
+          typeIndex: res.data.TypeIndex,
+          reasonIndex: res.data.ReasonIndex,
+          logisticsStatusIndex: res.data.LogisticsStatusIndex,
+          tel: res.data.Tel,
+          files: res.data.PicList,
         })
       }
     })
   },
+  onShow() {
+    
+  },
   refundApplyCancel() {
     const _this = this
-    WXAPI.refundApplyCancel(wx.getStorageSync('token'), _this.data.orderId).then(res => {
+    WXAPI.refundApplyCancel({ order_id: _this.data.orderId}).then(res => {
       if (res.code == 0) {
         wx.navigateTo({
           url: "/pages/order-list/index"
@@ -65,29 +71,20 @@ Page({
       }
     })
   },
-  typeItemsChange: function (e) {
-    const typeItems = this.data.typeItems;
-    for (var i = 0, len = typeItems.length; i < len; ++i) {
-      typeItems[i].checked = typeItems[i].value == e.detail.value;
-    }
-    this.setData({
-      typeItems: typeItems,
-      type: e.detail.value
-    });
-  },
-  logisticsStatusItemsChange: function (e) {
-    const logisticsStatusItems = this.data.logisticsStatusItems;
-    for (var i = 0, len = logisticsStatusItems.length; i < len; ++i) {
-      logisticsStatusItems[i].checked = logisticsStatusItems[i].value == e.detail.value;
-    }
-    this.setData({
-      logisticsStatusItems: logisticsStatusItems,
-      logisticsStatus: e.detail.value
-    });
-  },
+  
   reasonChange: function (e) {
     this.setData({
       reasonIndex: e.detail.value
+    })
+  },
+  typeChange: function (e) {
+    this.setData({
+      typeIndex: e.detail.value
+    })
+  },
+  logisticsStatusChange: function (e) {
+    this.setData({
+      logisticsStatusIndex: e.detail.value
     })
   },
   chooseImage: function (e) {
@@ -110,31 +107,40 @@ Page({
       urls: that.data.files // 需要预览的图片http链接列表
     })
   },
+
+  inputChange: function (e) {
+    this.setData({
+      num: e.detail.value.length,
+      content: e.detail.value
+    })
+  },
+
   bindSave: function (e) {
     const _this = this;
     // _this.data.orderId
     // _this.data.type
     // _this.data.logisticsStatus
     // _this.data.reasons[_this.data.reasonIndex]
-    let amount = e.detail.value.amount;
+    let amount = e.detail.value.amount.slice(1);
     if (_this.data.type == 2) {
       amount = 0.00
     }
-    let remark = e.detail.value.remark;
-    if (!remark) {
-      remark = ''
-    }
+    let tel = e.detail.value.tel
+
     // _this.data.pics
     WXAPI.refundApply(
       {
         order_id: _this.data.orderId,
-        typ: _this.data.type,
-        logistics_status: _this.data.logisticsStatus,
+        typ: _this.data.types[_this.data.typeIndex],
+        type_index: _this.data.typeIndex,
+        logistics_status: _this.data.logisticsStatuses[_this.data.logisticsStatusIndex],
+        logistics_status_index: _this.data.logisticsStatusIndex,
         reason: _this.data.reasons[_this.data.reasonIndex],
         reason_index: _this.data.reasonIndex,
         money: amount,
-        remark: remark,
-        pics: _this.data.pics.join()
+        remark: _this.data.content,
+        pics: _this.data.pics.join(),
+        tel: tel,
       }
     ).then(res => {
       if (res.code == 0) {
@@ -169,40 +175,43 @@ Page({
     _this.data.pics = []
     let successNum = 0;
     let failNum = 0;
-    for (let i = 0; i < _this.data.files.length; i++) {
-      wx.uploadFile({
-        url: 'https://www.007spy.cn/v1/image/upload_image', //仅为示例，非真实的接口地址
-        filePath: _this.data.files[i],
-        name: 'file',
-        header: { "Content-Type": "multipart/form-data" },
-        success: function (res) {
-          var data = res.data
-          data = data.split(',')[1].split('"')[3]
-          //do something
-          _this.data.pics.push(data)
-          successNum++
-          if (successNum == _this.data.files.length) {
-            _this.bindSave(e)
-          }
-        },
-        fail: function (res) {
-          if (failNum == 0) {
-            wx.showToast({
-              title: '图片上传失败',
-              icon: '',
-              image: '',
-              duration: 0,
-              mask: true,
-              success: function (res) { },
-              fail: function (res) { },
-              complete: function (res) { },
-            })
-            failNum++
-          }
+    if (_this.data.files.length > 0){
+      for (let i = 0; i < _this.data.files.length; i++) {
+        wx.uploadFile({
+          url: 'https://www.007spy.cn/v1/image/upload_image', //仅为示例，非真实的接口地址
+          filePath: _this.data.files[i],
+          name: 'file',
+          header: { "Content-Type": "multipart/form-data" },
+          success: function (res) {
+            var data = res.data
+            data = data.split(',')[1].split('"')[3]
+            //do something
+            _this.data.pics.push(data)
+            successNum++
+            if (successNum == _this.data.files.length) {
+              _this.bindSave(e)
+            }
+          },
+          fail: function (res) {
+            if (failNum == 0) {
+              wx.showToast({
+                title: '图片上传失败',
+                icon: '',
+                image: '',
+                duration: 0,
+                mask: true,
+                success: function (res) { },
+                fail: function (res) { },
+                complete: function (res) { },
+              })
+              failNum++
+            }
 
-        }
-      })
-
+          }
+        })
+      }
+    }else{
+      _this.bindSave(e)
     }
   }
   

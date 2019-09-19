@@ -54,7 +54,6 @@
 
 .asset {
   display: flex;
-  padding-top:20rpx;
   padding-bottom:20rpx;
   justify-content: space-around;
 }
@@ -91,10 +90,10 @@
 }
 
 .my-item-no-arrow{
-    width: 90%;
+    width: 96%;
     border-bottom: 1px solid #eee;
-    height: 80rpx;
-    line-height: 80rpx;
+    height: 70rpx;
+    line-height: 70rpx;
     padding-left: 30rpx;
     font-size:16px;
 }
@@ -130,8 +129,8 @@
   height: 67rpx;
 }
 .order-shortcut .item .text {
-  font-size: 12px;
-  color: #a3a3a3;
+  font-size: 10px;
+  color: #666;
 }
 .to-authorize{
   border: none;
@@ -148,6 +147,10 @@
 }
 
 .icon1 {
-  width: 55rpx;
-  height: 55rpx;
+  width: 45rpx;
+  height: 45rpx;
+}
+
+.bigSize {
+  font-size: 18px;
 }

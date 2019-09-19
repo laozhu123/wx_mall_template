@@ -19,7 +19,8 @@
     "pages/asset/index",
     "pages/score/index",
     "pages/user-info/index",
-    "pages/user-info/sign"
+    "pages/user-info/sign",
+    "pages/order/judge"
   ],
   "window": {
     "backgroundTextStyle": "light",

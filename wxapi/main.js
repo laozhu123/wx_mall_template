@@ -213,6 +213,9 @@ module.exports = {
   refundApplyDetail: (data) => {
     return request('/v1/refund_apply/get_refund_apply_by_order_id', false, 'post', data)
   },
+  refundApplyCancel: (data) => {
+    return request('/v1/refund_apply/cancel_refund_apply_by_order_id', false, 'post', data)
+  },
   refundApply: (data) => {
     return request('/v1/refund_apply/add_refund_apply', false, 'post', data)
   },
@@ -227,5 +230,8 @@ module.exports = {
   },
   getExpressPrice: (data) => {
     return request('/v1/express/get_express_money', false, 'post', data)
+  },
+  judgeOrder: (data) => {
+    return request('/v1/reputation/add_reputation', false, 'post', data)
   },
 }

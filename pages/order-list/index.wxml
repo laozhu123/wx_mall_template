@@ -4,7 +4,7 @@
       {{item}}
       <view class="jh-tab-bubble" wx:if="{{tabNum[index] > 0}}">
         <view class="jh-tab-count">{{tabNum[index]}}</view>
-    </view>
+      </view>
     </view>
   </view>
   <view class="no-order" hidden="{{orderList.length > 0 ? true : false}}">
@@ -14,29 +14,44 @@
   <view class="order-list" hidden="{{orderList ? false : true}}">
     <view class="a-order" wx:for-items="{{orderList}}" wx:key="{{index}}">
       <navigator url="/pages/order-details/index?id={{item.id}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
-        <view class="weui-cell__bd">{{item.OrderNumber}}</view>
-        <view class="weui-cell__ft weui-cell__ft_in-access">{{item.StatusStr}}</view>
+        <view class="weui-cell__bd" style="font-size: 12px">订单号：{{item.OrderNumber}}</view>
+        <view class="weui-cell__ft weui-cell__ft_in-access" style="font-size:12px; color:#E64340">{{item.StatusStr}}</view>
       </navigator>
-      <scroll-view class="goods-img-container" scroll-x="true">
-        <view class="img-box" wx:for-items="{{goodsMap[item.id]}}" wx:key="{{index}}">
-          <image src="{{item}}" class="goods-img"></image>
+      <view class="goods-list">
+        <view class="a-goods" wx:for-items="{{item.GoodsDetailList}}" wx:key="{{index}}">
+          <view class="img-box">
+            <image src="{{item.Icon}}" class="img" />
+          </view>
+          <view class="text-box">
+            <view class="arow arow01">
+              <view class="goods-name">{{item.Name}}</view>
+              <view class="goods-price">¥ {{item.Price}}</view>
+            </view>
+            <view class="arow">
+              <view class="goods-label">{{item.Size}}</view>
+              <view class="goods-num">x {{item.Number}}</view>
+            </view>
+          </view>
         </view>
-      </scroll-view>
-      <view class="goods-price">
+      </view>
+      <view class="goods-price1" style="font-size:12px; margin-bottom:3px" wx:if="{{item.LogisticPrice > 0}}">
+        运费：
+        <text style="font-size:12px">¥ {{item.LogisticPrice}}</text>
+      </view>
+      <view class="goods-price1" style="font-size:12px">
         共 {{item.goodsNumber}} 件商品 合计：
-        <text class="p" wx:if="{{item.PayScore <= 0}}">¥ {{item.RealPrice}}</text>
-        <text class="p" wx:if="{{item.PayScore > 0}}">¥ {{item.RealPrice}} + {{item.PayScore}} 积分</text>
+        <text class="p" wx:if="{{item.PayScore <= 0}}" style="font-size:12px">¥ {{item.RealPrice}}</text>
+        <text class="p" wx:if="{{item.PayScore > 0}}" style="font-size:12px">¥ {{item.RealPrice}} + {{item.PayScore}} 积分</text>
       </view>
-      <view class="goods-info">
-        <view class="goods-des">
-          <view class="remark" wx:if="{{item.Remark && item.Remark != ''}}">{{item.Remark}}</view>
-          <view>{{item.CreateTime}} </view>
-        </view>
-      </view>
+      <view style="width: 100%; background-color:#eee; margin-left:30rpx; height:1px;"></view>
       <view class="price-box">
+        <view class="btn active" hidden="{{item.Status==0? false : true}}" bindtap="toPayTap" data-id="{{item.id}}" data-money="{{item.RealPrice}}" data-score="{{item.PayScore}}">去支付</view>
         <view class="btn" hidden="{{item.Status==0? false : true}}" bindtap="cancelOrderTap" data-id="{{item.id}}">取消订单</view>
-        <view class="btn active" hidden="{{item.Status==0? false : true}}" bindtap="toPayTap" data-id="{{item.id}}" data-money="{{item.RealPrice}}" data-score="{{item.PayScore}}">马上付款</view>
-        <view class="btn active" hidden="{{(item.Status==0 || item.Status==-1) ? true : false}}" bindtap="refundApply" data-id="{{item.id}}" data-amount='{{item.RealPrice}}'>退换货</view>
+        <view class="btn active" hidden="{{(item.Status==2) ? false : true}}" bindtap="receive" data-id="{{item.id}}">确认收货</view>
+        <view class="btn active" hidden="{{(item.Status==3) ? false : true}}" bindtap="judgeOrder" data-id="{{item.id}}">评价</view>
+        <view class="btn" hidden="{{((item.Status==0 || item.Status==4 || item.Status==6)||(item.Refunding==1)) ? true : false}}" bindtap="refundApply" data-id="{{item.id}}" data-amount='{{item.RealPrice}}'>申请退款</view>
+        <view class="btn" hidden="{{(item.Refunding==0) ? true : false}}" bindtap="refundApply" data-id="{{item.id}}" data-amount='{{item.RealPrice}}'>退款进度</view>
+
       </view>
     </view>
 

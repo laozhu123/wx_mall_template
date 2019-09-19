@@ -10,16 +10,16 @@
     </view>
     <view class="asset">
       <view class='item' bindtap='goCoupon'>
-        <view>{{coupon}}</view>
-        <view>优惠券</view>
+        <view>优惠券(张)</view>
+        <view class="bigSize">{{coupon}}</view>
       </view>
       <view class='item' bindtap='goAsset'>
-        <view>{{balance}}</view>
-        <view>余额</view>
+        <view>余额(元)</view>
+        <view class="bigSize">{{balance}}</view>
       </view>
       <view class='item' bindtap='goScore'>
-        <view>{{score}}</view>
         <view>积分</view>
+        <view class="bigSize">{{score}}</view>
       </view>
     </view>
   </view>
@@ -29,30 +29,31 @@
     </view>
     <view class='order-shortcut'>
       <view class='item' bindtap='goOrder' data-type="0">
-        <image class="icon" src="/images/order/topay.png" background-size="cover"></image>
-        <view class='text'>待付款</view>
+        <image class="icon" src="/images/order/daizhifu.png" background-size="cover"></image>
+        <view class='text'>待支付</view>
       </view>
       <view class='item' bindtap='goOrder' data-type="1">
-        <image class="icon" src="/images/order/fahuo.png" background-size="cover"></image>
+        <image class="icon" src="/images/order/daifahuo.png" background-size="cover"></image>
         <view class='text'>待发货</view>
       </view>
       <view class='item' bindtap='goOrder' data-type="2">
-        <image class="icon" src="/images/order/shouhuo.png" background-size="cover"></image>
+        <image class="icon" src="/images/order/daishouhuo.png" background-size="cover"></image>
         <view class='text'>待收货</view>
       </view>
       <view class='item' bindtap='goOrder' data-type="3">
+        <image class="icon" src="/images/order/allorder.png" background-size="cover"></image>
+        <view class='text'>评价</view>
+      </view>
+      <view class='item' bindtap='goOrder' data-type="4">
         <image class="icon" src="/images/order/shouhou.png" background-size="cover"></image>
         <view class='text'>退款/售后</view>
       </view>
-      <view class='item' bindtap='goOrder' data-type="4">
-        <image class="icon" src="/images/order/pj.png" background-size="cover"></image>
-        <view class='text'>全部订单</view>
-      </view>
+      
 
     </view>
   </view>
   <view class="my-item" style="margin-top: 30rpx" bindtap="goPinOrder">
-    <image class="icon1" src="/images/no-order.png"></image>
+    <image style="width: 55rpx; height: 55rpx;" src="/images/no-order.png"></image>
     <view  style="margin-left: 15rpx; color:#333;">拼团订单</view>
   </view>
   <view class="my-item" bindtap="goAddress">
