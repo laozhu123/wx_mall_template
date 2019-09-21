@@ -6,7 +6,8 @@ Page({
       orderId:0,
       goodsList:[],
       yunPrice:"0.00",
-      appid: CONFIG.appid
+      appid: CONFIG.appid,
+      expireTime: "",
     },
     onLoad:function(e){
       var orderId = e.id;
@@ -27,7 +28,8 @@ Page({
           return;
         }
         that.setData({
-          orderDetail: res.data
+          orderDetail: res.data,
+          expireTime: res.data.orderInfo.ExpireTime.slice(5),
         });
       })
       var yunPrice = parseFloat(this.data.yunPrice);
@@ -134,5 +136,54 @@ Page({
           })
         }
       })
-    }
+    },
+  cancelOrderTap: function () {
+    const that = this;
+    wx.showModal({
+      title: '确定要取消该订单吗？',
+      content: '',
+      success: function (res) {
+        if (res.confirm) {
+          WXAPI.updateOrder({ id: that.data.orderId, status: 4 }).then(function (res) {
+            if (res.code == 0) {
+              that.onShow();
+            }
+          })
+        }
+      }
+    })
+  },
+  toPayTap: function(){
+
+  },
+  refundApply: function() {
+    // 申请售后
+    wx.navigateTo({
+      url: "/pages/order/refundApply?id=" + this.data.orderId + "&amount=" + this.data.OrderDetail.orderInfo.RealPrice
+    })
+  },
+  judgeOrder: function(){
+    wx.navigateTo({
+      url: "/pages/order/judge?id=" + this.data.orderId
+    })
+  },
+  receive: function () {
+    var that = this
+    WXAPI.updateOrder({ id: that.data.orderId, status: 3 }).then(function (res) {
+      if (res.code == 0) {
+        wx.showToast({
+          title: '收货成功',
+        })
+        that.setData({
+          currentType: 3
+        });
+        that.onShow()
+
+      } else {
+        wx.showToast({
+          title: '收货失败',
+        })
+      }
+    })
+  }
 })

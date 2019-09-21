@@ -3,10 +3,10 @@ const app = getApp()
 const WXAPI = require('../../wxapi/main')
 Page({
   data: {
-    statusType: ["待付款", "拼团中", "拼成功", "拼失败"],
+    statusType: ["待支付", "拼团中", "待发货", "待收货", "全部"],
     hasRefund: false,
     currentType: 0,
-    tabClass: ["", "", "", "", ""]
+    tabNum: [0, 0, 0, 0, 0]
   },
   statusTap: function (e) {
     const curType = e.currentTarget.dataset.index;
@@ -116,40 +116,24 @@ Page({
       }
     }
   },
-  onReady: function () {
+  onReady: function () { 
     // 生命周期函数--监听页面初次渲染完成
 
   },
   getOrderStatistics: function () {
     var that = this;
-    WXAPI.pinTuanOrderStatistics({}).then(function (res) {
+    WXAPI.pingTuanOrderStatistics({}).then(function (res) {
       if (res.code == 0) {
-        var tabClass = that.data.tabClass;
-        if (res.data.count_id_no_pay > 0) {
-          tabClass[0] = "red-dot"
-        } else {
-          tabClass[0] = ""
-        }
-        if (res.data.count_id_no_transfer > 0) {
-          tabClass[1] = "red-dot"
-        } else {
-          tabClass[1] = ""
-        }
-        if (res.data.count_id_no_confirm > 0) {
-          tabClass[2] = "red-dot"
-        } else {
-          tabClass[2] = ""
-        }
-        if (res.data.count_id_no_reputation > 0) {
-          tabClass[3] = "red-dot"
-        } else {
-          tabClass[3] = ""
-        }
+        var tabNum = that.data.tabNum
+
+        tabNum[0] = res.data.count_wait_pay
+        tabNum[1] = res.data.count_pinging
+        tabNum[2] = res.data.count_wait_send
+        tabNum[3] = res.data.count_wait_receive
 
         that.setData({
-          tabClass: tabClass,
+          tabNum: tabNum
         });
-        console.log(tabClass)
       }
     })
   },
@@ -159,11 +143,13 @@ Page({
     var postData = {
       token: wx.getStorageSync('token')
     };
-    postData.hasRefund = that.data.hasRefund;
-    if (!postData.hasRefund) {
-      postData.status = that.data.currentType+1;
+    if (that.data.currentType == 4) {
+      postData.status = 0
+    } else {
+      postData.status = that.data.currentType + 1;
     }
-    this.getOrderStatistics();
+    if (postData.status)
+      this.getOrderStatistics();
     WXAPI.pingTuanOrderList(postData).then(function (res) {
       if (res.code == 0) {
         that.setData({
@@ -193,5 +179,31 @@ Page({
   onReachBottom: function () {
     // 页面上拉触底事件的处理函数
 
+  },
+  judgeOrder: function (e) {
+    const orderId = e.currentTarget.dataset.id;
+    wx.navigateTo({
+      url: "/pages/order/judge?id=" + orderId
+    })
+  },
+  receive: function (e) {
+    var that = this
+    const orderId = e.currentTarget.dataset.id;
+    WXAPI.updateOrder({ id: orderId, status: 3 }).then(function (res) {
+      if (res.code == 0) {
+        wx.showToast({
+          title: '收货成功',
+        })
+        that.setData({
+          currentType: 3
+        });
+        that.onShow()
+
+      } else {
+        wx.showToast({
+          title: '收货失败',
+        })
+      }
+    })
   }
 })

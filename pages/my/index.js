@@ -124,5 +124,10 @@ Page({
       url: "/pages/ping-order-list/index"
     })
   },
+  goShouHou: function (e) {
+    wx.navigateTo({
+      url: "/pages/shouhou-order-list/index"
+    })
+  },
   
 })

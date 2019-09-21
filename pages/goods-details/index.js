@@ -292,7 +292,6 @@ Page({
           curSelectNum++;
           propertyChildIds = propertyChildIds + that.data.goodsDetail.properties[i].id + ":" + childs[j].id + ",";
           propertyChildNames = propertyChildNames + that.data.goodsDetail.properties[i].Name + ":" + childs[j].Name + "  ";
-          console.log(that.data.shopType)
           if (that.data.shopType == "toPingtuan") {
             selectSizePrice = childs[j].PingTuanPrice
           } else {
@@ -311,7 +310,11 @@ Page({
           var psp = psps[i].split(":")
           if (psp[0] == id){
             stores = psp[1]
-            selectSizePrice = psp[2]
+            if (that.data.shopType == "toPingtuan") {
+              selectSizePrice = psp[3]
+            } else {
+              selectSizePrice = psp[2]
+            }
           }
         }
       }

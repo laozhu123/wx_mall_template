@@ -20,7 +20,8 @@
     "pages/score/index",
     "pages/user-info/index",
     "pages/user-info/sign",
-    "pages/order/judge"
+    "pages/order/judge",
+    "pages/shouhou-order-list/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

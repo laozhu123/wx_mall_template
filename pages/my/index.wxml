@@ -44,7 +44,7 @@
         <image class="icon" src="/images/order/allorder.png" background-size="cover"></image>
         <view class='text'>评价</view>
       </view>
-      <view class='item' bindtap='goOrder' data-type="4">
+      <view class='item' bindtap='goShouHou'>
         <image class="icon" src="/images/order/shouhou.png" background-size="cover"></image>
         <view class='text'>退款/售后</view>
       </view>
