@@ -243,4 +243,8 @@ module.exports = {
   goodsPrice: (data) => {
     return request('/v1/goods/goods_price', false, 'post', data)
   },
+  wxaQrcode: (data) => {
+    return request('/v1/app/get_qrcode', false, 'post', data)
+  },
+  
 }

@@ -45,6 +45,9 @@ Page({
   },
   downLoadGoodsPic() {
     const _this = this
+    console.log(1)
+    _this.downLoadQrcode(100)
+    return
     wx.getImageInfo({
       src: _this.data.pic,
       success: (res) => {
@@ -69,19 +72,23 @@ Page({
         ctx.lineTo(imageSize.windowWidth - 10, imageSize.imageHeight + 50)
         ctx.setStrokeStyle('#eee')
         ctx.stroke()
-
+        console.log(2)  
         _this.downLoadQrcode(imageSize)
+      },
+      fail: (res)=>{
+        console.log(res)
       }
     })
   },
   downLoadQrcode(_imageSize) {
+    console.log(3)
     const _this = this
     WXAPI.wxaQrcode({
       scene: _this.data.goodsid +',' + wx.getStorageSync('uid'),
       page: 'pages/goods-details/index',
-      is_hyaline: true,
-      expireHours: 1
+      is_hyaline: 1,
     }).then(res => {
+      console.log(4)
       if (res.code !== 0) {
         wx.showToast({
           title: res.msg,
@@ -94,7 +101,8 @@ Page({
           src: imageUrl,
           success: (res) => {
             let left = _imageSize.windowWidth / 3
-            ctx.drawImage(res.path, left, _imageSize.imageHeight + 80, _imageSize.windowWidth / 3, _imageSize.windowWidth / 3)
+            ctx = wx.createCanvasContext('firstCanvas')
+            ctx.drawImage(imageUrl, left, _imageSize.imageHeight + 400, _imageSize.windowWidth , _imageSize.windowWidth)
             
             ctx.setFontSize(12)
             ctx.setFillStyle('#e64340')
