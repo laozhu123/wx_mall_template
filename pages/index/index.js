@@ -158,9 +158,6 @@ Page({
   },
   getGoodsList: function (goodsTypeId, append) {
     var that = this;
-    wx.showLoading({
-      "mask": true
-    })
     WXAPI.goods({
       goods_type_id: goodsTypeId,
       name: that.data.inputVal,

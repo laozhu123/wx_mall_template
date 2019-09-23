@@ -18,7 +18,7 @@
           <view class="text-box">
             <view class="arow arow01">
               <view class="goods-name">{{item.Name}}</view>
-              <view class="goods-price">¥ {{item.Price}}</view>
+              <view class="goods-price">¥ {{item.Price/100}}</view>
             </view>
             <view class="arow">
               <view class="goods-label">{{item.Size}}</view>
@@ -29,12 +29,12 @@
       </view>
       <view class="goods-price1" style="font-size:12px; margin-bottom:3px" wx:if="{{item.LogisticPrice > 0}}">
         运费：
-        <text style="font-size:12px">¥ {{item.LogisticPrice}}</text>
+        <text style="font-size:12px">¥ {{item.LogisticPrice/100}}</text>
       </view>
       <view class="goods-price1" style="font-size:12px">
         共 {{item.goodsNumber}} 件商品 合计：
-        <text class="p" wx:if="{{item.PayScore <= 0}}" style="font-size:12px">¥ {{item.RealPrice}}</text>
-        <text class="p" wx:if="{{item.PayScore > 0}}" style="font-size:12px">¥ {{item.RealPrice}} + {{item.PayScore}} 积分</text>
+        <text class="p" wx:if="{{item.PayScore <= 0}}" style="font-size:12px">¥ {{item.RealPrice/100}}</text>
+        <text class="p" wx:if="{{item.PayScore > 0}}" style="font-size:12px">¥ {{item.RealPrice/100}} + {{item.PayScore}} 积分</text>
       </view>
       <view style="width: 100%; background-color:#eee; margin-left:30rpx; height:1px;"></view>
       <view class="price-box">

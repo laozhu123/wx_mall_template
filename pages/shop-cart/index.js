@@ -266,7 +266,6 @@ Page({
     this.setGoodsList(this.getSaveHide(), this.totalPrice(), this.allSelect(), this.noSelect(), list);
   },
   toPayOrder: function () {
-    wx.showLoading();
     var that = this;
     if (this.data.goodsList.noSelect) {
       wx.hideLoading();

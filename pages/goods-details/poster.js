@@ -38,9 +38,9 @@ Page({
       mask: true,
       title: '合成中...',
     })
-    const goodsDetailRes = await WXAPI.goodsDetail(this.data.goodsid)
-    this.data.pic = goodsDetailRes.data.basicInfo.pic
-    this.data.name = goodsDetailRes.data.basicInfo.name
+    const goodsDetailRes = await WXAPI.goodsDetail({ id: this.data.goodsid, type:1})
+    this.data.pic = goodsDetailRes.data.basicInfo.Pic
+    this.data.name = goodsDetailRes.data.basicInfo.Name
     this.downLoadGoodsPic()
   },
   downLoadGoodsPic() {

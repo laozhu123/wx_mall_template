@@ -3,7 +3,7 @@ const CONFIG = require('../../config.js')
 const WXAPI = require('../../wxapi/main')
 Page({
   data: {
-    balance: 0.00,
+    balance: 0,
     coupon: 10,
     score: 0,
     score_sign_continuous: 0
@@ -65,7 +65,7 @@ Page({
       if (res.code == 0) {
         that.setData({
           coupon: res.data.coupon,
-          balance: (res.data.balance/100).toFixed(2),
+          balance: res.data.balance/100,
           score: res.data.score
         });
       }

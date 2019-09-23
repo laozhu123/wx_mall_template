@@ -7,6 +7,8 @@ const request = (url, needSubDomain, method, data) => {
   let _url = API_BASE_URL + (needSubDomain ? '/' + CONFIG.subDomain : '') + url
   data.access_token = wx.getStorageSync('token')
   return new Promise((resolve, reject) => {
+    wx.showLoading({
+    })
     wx.request({
       url: _url,
       method: method,
@@ -22,7 +24,7 @@ const request = (url, needSubDomain, method, data) => {
               login(res.code).then(function (res) {
                 if (res.code != 0) {
                   // 登录错误
-                  wx.hideLoading();
+                  wx.hideLoading()
                   wx.showModal({
                     title: '提示',
                     content: '无法登录，请重试',
@@ -40,9 +42,11 @@ const request = (url, needSubDomain, method, data) => {
                     'Content-Type': 'application/x-www-form-urlencoded'
                   },
                   success(request){
+                    wx.hideLoading()
                     resolve(request.data)
                   },
                   fail(error){
+                    wx.hideLoading()
                     reject(error)
                   },
                   complete(aaa){
@@ -54,9 +58,11 @@ const request = (url, needSubDomain, method, data) => {
           })
           return
         }
+        wx.hideLoading()
         resolve(request.data)
       },
       fail(error) {
+        wx.hideLoading()
         reject(error)
       },
       complete(aaa) {
