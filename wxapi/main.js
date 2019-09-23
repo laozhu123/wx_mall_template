@@ -234,4 +234,7 @@ module.exports = {
   judgeOrder: (data) => {
     return request('/v1/reputation/add_reputation', false, 'post', data)
   },
+  goodsPrice: (data) => {
+    return request('/v1/goods/goods_price', false, 'post', data)
+  },
 }

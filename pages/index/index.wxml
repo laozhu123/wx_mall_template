@@ -83,8 +83,8 @@
       </view>
       <view class="goods-title">{{item.Name}}</view>
       <view style='display:flex;'>
-        <view class="goods-price">¥ {{item.MinPrice}}</view>
-        <view wx:if="{{item.OriginalPrice && item.OriginalPrice > 0}}" class="goods-price" style='color:#aaa;text-decoration:line-through'>¥ {{item.OriginalPrice}}</view>
+        <view class="goods-price">¥ {{item.NowPrice/100}}</view>
+        <view wx:if="{{item.OriginalPrice && item.OriginalPrice > 0}}" class="goods-price" style='color:#aaa;text-decoration:line-through'>¥ {{item.OriginalPrice/100}}</view>
       </view>
     </view>
   </view>
@@ -102,8 +102,8 @@
         <view class='tuan-profile'>{{item.Characteristic}}</view>
         <view class="weui-badge" style="margin-left: 20rpx;" wx:if="{{item.Tags}}">{{item.Tags}}</view>
         <view class='tuan-price'>
-          <text class='now'>￥ {{item.PingTuanPrice}}</text>
-          <text class='original'>￥ {{item.OriginalPrice}}</text>
+          <text class='now'>￥ {{item.PingTuanPrice/100}}</text>
+          <text class='original'>￥ {{item.OriginalPrice/100}}</text>
         </view>
         <view class="tuan-btn">
           <button type="warn" size="mini" bindtap="toDetailsTap" data-id="{{item.id}}">拼团</button>
@@ -121,8 +121,8 @@
       </view>
       <view class="goods-title">{{item.Name}}</view>
       <view style='display:flex;'>
-        <view class="goods-price">¥ {{item.MinPrice}}</view>
-        <view wx:if="{{item.OriginalPrice && item.OriginalPrice > 0}}" class="goods-price" style='color:#aaa;text-decoration:line-through'>¥ {{item.OriginalPrice}}</view>
+        <view class="goods-price">¥ {{item.NowPrice/100}}</view>
+        <view wx:if="{{item.OriginalPrice && item.OriginalPrice > 0}}" class="goods-price" style='color:#aaa;text-decoration:line-through'>¥ {{item.OriginalPrice/100}}</view>
       </view>
     </view>
   </view>

@@ -63,7 +63,7 @@
           <view class="text-box">
             <view class="arow arow01">
               <view class="goods-name">{{orderDetail.goodsMap[item.goodsId].Name}}</view>
-              <view class="goods-price">¥ {{orderDetail.orderInfo.PingTuanId > 0 ? orderDetail.propertyMap[item.goodsId].PingTuanPrice : orderDetail.propertyMap[item.goodsId].Price}}</view>
+              <view class="goods-price">¥ {{orderDetail.orderInfo.PingTuanId > 0 ? orderDetail.propertyMap[item.goodsId].PingTuanPrice/100 : orderDetail.propertyMap[item.goodsId].Price/100}}</view>
             </view>
             <view class="arow">
               <view class="goods-label">{{orderDetail.propertyMap[item.goodsId].Property}}</view>
@@ -91,15 +91,15 @@
   <view class="goods-info">
     <view class="row-box">
       <view class="row-label">商品金额</view>
-      <view class="right-text">¥ {{orderDetail.orderInfo.GoodsPrice}}</view>
+      <view class="right-text">¥ {{orderDetail.orderInfo.GoodsPrice/100}}</view>
     </view>
     <view class="row-box" wx:if="{{orderDetail.orderInfo.LogisticPrice > 0}}">
       <view class="row-label">运费</view>
-      <view class="right-text">+ ¥ {{orderDetail.orderInfo.LogisticPrice}}</view>
+      <view class="right-text">+ ¥ {{orderDetail.orderInfo.LogisticPrice/100}}</view>
     </view>
     <view class="row-box">
       <view class="row-label">应付总额</view>
-      <view class="right-text">¥ {{orderDetail.orderInfo.RealPrice}}</view>
+      <view class="right-text">¥ {{orderDetail.orderInfo.RealPrice/100}}</view>
     </view>
   </view>
   <view class="all-time">

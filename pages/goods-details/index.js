@@ -76,7 +76,7 @@ Page({
         that.setData({
           hasMoreSelect: true,
           selectSize: that.data.selectSize + selectSizeTemp,
-          selectSizePrice: goodsDetailRes.data.basicInfo.MinPrice,
+          selectSizePrice: goodsDetailRes.data.basicInfo.MinPrice/100 + "-" + goodsDetailRes.data.basicInfo.MaxPrice/100,
           totalScoreToPay: goodsDetailRes.data.basicInfo.MinScore
         });
       }
@@ -89,7 +89,7 @@ Page({
       }
       let _data = {
         goodsDetail: goodsDetailRes.data,
-        selectSizePrice: goodsDetailRes.data.basicInfo.MinPrice,
+        selectSizePrice: goodsDetailRes.data.basicInfo.MinPrice / 100 + "-" + goodsDetailRes.data.basicInfo.MaxPrice / 100,
         totalScoreToPay: goodsDetailRes.data.basicInfo.MinScore,
         buyNumMax: goodsDetailRes.data.basicInfo.Stores,
         buyNumber: (goodsDetailRes.data.basicInfo.Stores > 0) ? 1 : 0,
@@ -121,7 +121,7 @@ Page({
   tobuy: function () {
     this.setData({
       shopType: "tobuy",
-      selectSizePrice: this.data.goodsDetail.basicInfo.MinPrice
+      selectSizePrice: this.data.goodsDetail.basicInfo.MinPrice / 100 + "-" + this.data.goodsDetail.basicInfo.MaxPrice / 100
     });
     this.bindGuiGeTap();
   },
@@ -140,7 +140,7 @@ Page({
     }
     this.setData({
       shopType: "toPingtuan",
-      selectSizePrice: this.data.goodsDetail.basicInfo.PingTuanPrice,
+      selectSizePrice: this.data.goodsDetail.basicInfo.PingTuanPrice/100,
       pingtuanopenid: pingtuanopenid
     });
     this.bindGuiGeTap();
@@ -293,9 +293,9 @@ Page({
           propertyChildIds = propertyChildIds + that.data.goodsDetail.properties[i].id + ":" + childs[j].id + ",";
           propertyChildNames = propertyChildNames + that.data.goodsDetail.properties[i].Name + ":" + childs[j].Name + "  ";
           if (that.data.shopType == "toPingtuan") {
-            selectSizePrice = childs[j].PingTuanPrice
+            selectSizePrice = childs[j].PingTuanPrice/100
           } else {
-            selectSizePrice = childs[j].Price
+            selectSizePrice = childs[j].Price/100
           }
           totalScoreToPay = childs[j].Score
           stores = childs[j].Stores
@@ -311,9 +311,9 @@ Page({
           if (psp[0] == id){
             stores = psp[1]
             if (that.data.shopType == "toPingtuan") {
-              selectSizePrice = psp[3]
+              selectSizePrice = psp[3]/100
             } else {
-              selectSizePrice = psp[2]
+              selectSizePrice = psp[2]/100
             }
           }
         }

@@ -8,7 +8,7 @@ Page({
     currentType: 0,
     tabNum: [0, 0, 0, 0, 0]
   },
-  statusTap: function (e) {
+  statusTap: function(e) {
     const curType = e.currentTarget.dataset.index;
     this.data.currentType = curType
     this.setData({
@@ -16,15 +16,18 @@ Page({
     });
     this.onShow();
   },
-  cancelOrderTap: function (e) {
+  cancelOrderTap: function(e) {
     const that = this;
     const orderId = e.currentTarget.dataset.id;
     wx.showModal({
       title: '确定要取消该订单吗？',
       content: '',
-      success: function (res) {
+      success: function(res) {
         if (res.confirm) {
-          WXAPI.updateOrder({ id: orderId, status: 4 }).then(function (res) {
+          WXAPI.updateOrder({
+            id: orderId,
+            status: 4
+          }).then(function(res) {
             if (res.code == 0) {
               that.onShow();
             }
@@ -41,12 +44,12 @@ Page({
       url: "/pages/order/refundApply?id=" + orderId + "&amount=" + amount
     })
   },
-  toPayTap: function (e) {
+  toPayTap: function(e) {
     const that = this;
     const orderId = e.currentTarget.dataset.id;
     let money = e.currentTarget.dataset.money;
     const needScore = e.currentTarget.dataset.score;
-    WXAPI.userAmount(wx.getStorageSync('token')).then(function (res) {
+    WXAPI.userAmount(wx.getStorageSync('token')).then(function(res) {
       if (res.code == 0) {
         // 增加提示框
         if (res.data.score < needScore) {
@@ -72,7 +75,7 @@ Page({
           content: _msg,
           confirmText: "确认支付",
           cancelText: "取消支付",
-          success: function (res) {
+          success: function(res) {
             console.log(res);
             if (res.confirm) {
               that._toPayTap(orderId, money)
@@ -90,18 +93,18 @@ Page({
       }
     })
   },
-  _toPayTap: function (orderId, money) {
+  _toPayTap: function(orderId, money) {
     const _this = this
     if (money <= 0) {
       // 直接使用余额支付
-      WXAPI.orderPay(orderId, wx.getStorageSync('token')).then(function (res) {
+      WXAPI.orderPay(orderId, wx.getStorageSync('token')).then(function(res) {
         _this.onShow();
       })
     } else {
       wxpay.wxpay('order', money, orderId, "/pages/order-list/index");
     }
   },
-  onLoad: function (options) {
+  onLoad: function(options) {
     if (options && options.type) {
       if (options.type == 99) {
         this.setData({
@@ -116,13 +119,13 @@ Page({
       }
     }
   },
-  onReady: function () {
+  onReady: function() {
     // 生命周期函数--监听页面初次渲染完成
 
   },
-  getOrderStatistics: function () {
+  getOrderStatistics: function() {
     var that = this;
-    WXAPI.orderStatistics({}).then(function (res) {
+    WXAPI.orderStatistics({}).then(function(res) {
       if (res.code == 0) {
         var tabNum = that.data.tabNum
 
@@ -137,21 +140,21 @@ Page({
       }
     })
   },
-  onShow: function () {
+  onShow: function() {
     // 获取订单列表
     var that = this;
     var postData = {
       token: wx.getStorageSync('token')
     };
     postData.type = 1
-    if (that.data.currentType == 4){
+    if (that.data.currentType == 4) {
       postData.status = -1
-    }else{
+    } else {
       postData.status = that.data.currentType;
     }
     if (postData.status)
-    this.getOrderStatistics();
-    WXAPI.orderList(postData).then(function (res) {
+      this.getOrderStatistics();
+    WXAPI.orderList(postData).then(function(res) {
       if (res.code == 0) {
         that.setData({
           orderList: res.data.list,
@@ -165,23 +168,23 @@ Page({
       }
     })
   },
-  onHide: function () {
+  onHide: function() {
     // 生命周期函数--监听页面隐藏
 
   },
-  onUnload: function () {
+  onUnload: function() {
     // 生命周期函数--监听页面卸载
 
   },
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
     // 页面相关事件处理函数--监听用户下拉动作
 
   },
-  onReachBottom: function () {
+  onReachBottom: function() {
     // 页面上拉触底事件的处理函数
 
   },
-  judgeOrder: function(e){
+  judgeOrder: function(e) {
     const orderId = e.currentTarget.dataset.id;
     wx.navigateTo({
       url: "/pages/order/judge?id=" + orderId
@@ -190,8 +193,11 @@ Page({
   receive: function(e) {
     var that = this
     const orderId = e.currentTarget.dataset.id;
-    WXAPI.updateOrder({id: orderId, status: 3}).then(function(res){
-      if (res.code == 0){
+    WXAPI.updateOrder({
+      id: orderId,
+      status: 3
+    }).then(function(res) {
+      if (res.code == 0) {
         wx.showToast({
           title: '收货成功',
         })
@@ -200,7 +206,7 @@ Page({
         });
         that.onShow()
 
-      }else{
+      } else {
         wx.showToast({
           title: '收货失败',
         })
