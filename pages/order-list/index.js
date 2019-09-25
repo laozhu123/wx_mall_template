@@ -8,7 +8,7 @@ Page({
     currentType: 0,
     tabNum: [0, 0, 0, 0, 0]
   },
-  statusTap: function(e) {
+  statusTap: function (e) {
     const curType = e.currentTarget.dataset.index;
     this.data.currentType = curType
     this.setData({
@@ -16,18 +16,18 @@ Page({
     });
     this.onShow();
   },
-  cancelOrderTap: function(e) {
+  cancelOrderTap: function (e) {
     const that = this;
     const orderId = e.currentTarget.dataset.id;
     wx.showModal({
       title: '确定要取消该订单吗？',
       content: '',
-      success: function(res) {
+      success: function (res) {
         if (res.confirm) {
           WXAPI.updateOrder({
             id: orderId,
             status: 4
-          }).then(function(res) {
+          }).then(function (res) {
             if (res.code == 0) {
               that.onShow();
             }
@@ -44,67 +44,69 @@ Page({
       url: "/pages/order/refundApply?id=" + orderId + "&amount=" + amount
     })
   },
-  toPayTap: function(e) {
+  toPayTap: function (e) {
     const that = this;
-    const orderId = e.currentTarget.dataset.id;
-    let money = e.currentTarget.dataset.money;
-    const needScore = e.currentTarget.dataset.score;
-    WXAPI.userAmount(wx.getStorageSync('token')).then(function(res) {
-      if (res.code == 0) {
-        // 增加提示框
-        if (res.data.score < needScore) {
-          wx.showToast({
-            title: '您的积分不足，无法支付',
-            icon: 'none'
-          })
-          return;
+    let { orderId, realPrice } = e.detail.value
+    console.log(e.detail.value)
+
+
+    let _msg = '订单金额: ' + realPrice/100 + ' 元'
+    _msg += ',可用余额为 ' + 0 + ' 元'
+    _msg += ',仍需微信支付 ' + realPrice/100  + ' 元'
+
+
+    wx.showModal({
+      title: '请确认支付',
+      content: _msg,
+      confirmText: "确认支付",
+      cancelText: "取消支付",
+      success: function (res) {
+        console.log(res);
+        if (res.confirm) {
+          that._toPayTap(orderId, realPrice, e.detail.form_id)
+        } else {
+          console.log('用户点击取消支付')
         }
-        let _msg = '订单金额: ' + money + ' 元'
-        if (res.data.balance > 0) {
-          _msg += ',可用余额为 ' + res.data.balance + ' 元'
-          if (money - res.data.balance > 0) {
-            _msg += ',仍需微信支付 ' + (money - res.data.balance) + ' 元'
-          }
-        }
-        if (needScore > 0) {
-          _msg += ',并扣除 ' + money + ' 积分'
-        }
-        money = money - res.data.balance
-        wx.showModal({
-          title: '请确认支付',
-          content: _msg,
-          confirmText: "确认支付",
-          cancelText: "取消支付",
-          success: function(res) {
-            console.log(res);
-            if (res.confirm) {
-              that._toPayTap(orderId, money)
-            } else {
-              console.log('用户点击取消支付')
-            }
-          }
-        });
-      } else {
-        wx.showModal({
-          title: '错误',
-          content: '无法获取用户资金信息',
-          showCancel: false
-        })
       }
     })
   },
-  _toPayTap: function(orderId, money) {
+
+  _toPayTap: function (orderId, money, formId) {
     const _this = this
-    if (money <= 0) {
-      // 直接使用余额支付
-      WXAPI.orderPay(orderId, wx.getStorageSync('token')).then(function(res) {
-        _this.onShow();
-      })
-    } else {
-      wxpay.wxpay('order', money, orderId, "/pages/order-list/index");
-    }
+
+    WXAPI.getPayOrderId({ id: orderId, form_id: formId }).then(function (res) {
+      if (res.code == 0) {
+        wx.requestPayment(
+          {
+            'timeStamp': res.data.wx_reply.timeStamp,
+            'nonceStr': res.data.wx_reply.nonceStr,
+            'package': 'prepay_id=' + res.data.wx_reply.prepayId,
+            'signType': res.data.wx_reply.signType,
+            'paySign': res.data.wx_reply.paySign,
+            'success': function (res) {
+              wx.showToast({
+                title: '支付成功',
+                icon: 'none'
+              })
+            },
+            'fail': function (res) {
+              wx.showToast({
+                title: '支付失败',
+                icon: 'none'
+              })
+            },
+            'complete': function (res) { }
+          })
+      }else{
+        wx.showToast({
+          title: '微信支付失败',
+          icon: 'none'
+        })
+      }
+    })
+
   },
-  onLoad: function(options) {
+  onLoad: function (options) {
     if (options && options.type) {
       if (options.type == 99) {
         this.setData({
@@ -119,13 +121,13 @@ Page({
       }
     }
   },
-  onReady: function() {
+  onReady: function () {
     // 生命周期函数--监听页面初次渲染完成
 
   },
-  getOrderStatistics: function() {
+  getOrderStatistics: function () {
     var that = this;
-    WXAPI.orderStatistics({}).then(function(res) {
+    WXAPI.orderStatistics({}).then(function (res) {
       if (res.code == 0) {
         var tabNum = that.data.tabNum
 
@@ -140,7 +142,7 @@ Page({
       }
     })
   },
-  onShow: function() {
+  onShow: function () {
     // 获取订单列表
     var that = this;
     var postData = {
@@ -154,7 +156,7 @@ Page({
     }
     if (postData.status)
       this.getOrderStatistics();
-    WXAPI.orderList(postData).then(function(res) {
+    WXAPI.orderList(postData).then(function (res) {
       if (res.code == 0) {
         that.setData({
           orderList: res.data.list,
@@ -168,35 +170,35 @@ Page({
       }
     })
   },
-  onHide: function() {
+  onHide: function () {
     // 生命周期函数--监听页面隐藏
 
   },
-  onUnload: function() {
+  onUnload: function () {
     // 生命周期函数--监听页面卸载
 
   },
-  onPullDownRefresh: function() {
+  onPullDownRefresh: function () {
     // 页面相关事件处理函数--监听用户下拉动作
 
   },
-  onReachBottom: function() {
+  onReachBottom: function () {
     // 页面上拉触底事件的处理函数
 
   },
-  judgeOrder: function(e) {
+  judgeOrder: function (e) {
     const orderId = e.currentTarget.dataset.id;
     wx.navigateTo({
       url: "/pages/order/judge?id=" + orderId
     })
   },
-  receive: function(e) {
+  receive: function (e) {
     var that = this
     const orderId = e.currentTarget.dataset.id;
     WXAPI.updateOrder({
       id: orderId,
       status: 3
-    }).then(function(res) {
+    }).then(function (res) {
       if (res.code == 0) {
         wx.showToast({
           title: '收货成功',

@@ -246,5 +246,11 @@ module.exports = {
   wxaQrcode: (data) => {
     return request('/v1/app/get_qrcode', false, 'post', data)
   },
+  sendMessage: (data) => {
+    return request('/v1/message/send', false, 'post', data)
+  },
+  getPayOrderId: (data) => {
+    return request('/v1/order/get_pay_order_id', false, 'post', data)
+  },
   
 }

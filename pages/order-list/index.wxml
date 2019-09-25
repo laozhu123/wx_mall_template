@@ -45,8 +45,14 @@
       </view>
       <view style="width: 100%; background-color:#eee; margin-left:30rpx; height:1px;"></view>
       <view class="price-box">
-        <view class="btn active" hidden="{{item.Status==0? false : true}}" bindtap="toPayTap" data-id="{{item.id}}" data-money="{{item.RealPrice}}" data-score="{{item.PayScore}}">去支付</view>
-        <view class="btn" hidden="{{item.Status==0? false : true}}" bindtap="cancelOrderTap" data-id="{{item.id}}">取消订单</view>
+        <form bindsubmit="toPayTap" report-submit="true">
+          <view style="display: flex">
+            <input style="width:0; height:0;" name="orderId" value="{{item.id}}"></input>
+            <input style="width:0; height:0;" name="realPrice" value="{{item.RealPrice}}"></input>
+            <view class="btn" hidden="{{item.Status==0? false : true}}" bindtap="cancelOrderTap" data-id="{{item.id}}">取消订单</view>
+            <button class="btn active" hidden="{{item.Status==0? false : true}}" formType="submit">去支付</button>
+          </view>
+        </form>
         <view class="btn active" hidden="{{(item.Status==2) ? false : true}}" bindtap="receive" data-id="{{item.id}}">确认收货</view>
         <view class="btn active" hidden="{{(item.Status==3) ? false : true}}" bindtap="judgeOrder" data-id="{{item.id}}">评价</view>
         <view class="btn" hidden="{{((item.Status==0 || item.Status==4 || item.Status==6)||(item.Refunding==1)) ? true : false}}" bindtap="refundApply" data-id="{{item.id}}" data-amount='{{item.RealPrice}}'>申请退款</view>

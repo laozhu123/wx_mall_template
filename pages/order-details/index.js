@@ -67,7 +67,61 @@ Page({
       }
     })
   },
-  toPayTap: function () {
+  toPayTap: function (e) {
+    
+    let that = this
+    let _msg = '订单金额: ' + this.data.orderDetail.orderInfo.RealPrice / 100 + ' 元'
+    _msg += ',可用余额为 ' + 0 + ' 元'
+    _msg += ',仍需微信支付 ' + this.data.orderDetail.orderInfo.RealPrice / 100 + ' 元'
+
+    wx.showModal({
+      title: '请确认支付',
+      content: _msg,
+      confirmText: "确认支付",
+      cancelText: "取消支付",
+      success: function (res) {
+        console.log(res);
+        if (res.confirm) {
+          that._toPayTap(that.data.orderId, e.detail.formId)
+        } else {
+          console.log('用户点击取消支付')
+        }
+      }
+    })
+  },
+  _toPayTap: function (orderId, formId) {
+    const _this = this
+
+    WXAPI.getPayOrderId({ id: orderId, form_id: formId }).then(function (res) {
+      if (res.code == 0) {
+        wx.requestPayment(
+          {
+            'timeStamp': res.data.wx_reply.timeStamp,
+            'nonceStr': res.data.wx_reply.nonceStr,
+            'package': 'prepay_id=' + res.data.wx_reply.prepayId,
+            'signType': res.data.wx_reply.signType,
+            'paySign': res.data.wx_reply.paySign,
+            'success': function (res) {
+              wx.showToast({
+                title: '支付成功',
+                icon: 'none'
+              })
+            },
+            'fail': function (res) {
+              wx.showToast({
+                title: '支付失败',
+                icon: 'none'
+              })
+            },
+            'complete': function (res) { }
+          })
+      } else {
+        wx.showToast({
+          title: '微信支付失败',
+          icon: 'none'
+        })
+      }
+    })
 
   },
   refundApply: function () {

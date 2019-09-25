@@ -205,6 +205,13 @@ Page({
         wx.removeStorageSync('shopCarInfo');
       }
       // 配置模板消息推送
+      WXAPI.sendMessage({
+        form_id: e.detail.formId,
+        template_id: 'jLsMVQaCLXDfOaW61KH_Aw424nxylFf8Mr3YVOJTdlc',
+        page: 'pages/order-details/index?id='+res.data.id,
+        data: res.data.OrderNumber + '|¥' + res.data.RealPrice/100 + '|' + res.data.CreateTime + '|' + res.data.GoodsDetailList[0].Name + 'x' + res.data.GoodsDetailList[0].Number,
+        emphasis_keyword: 'keyword2.DATA'
+      })
 
       // 下单成功，跳转到订单管理界面
       wx.redirectTo({

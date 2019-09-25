@@ -54,7 +54,7 @@
   </view>
   <view class="goods-list">
     <view class="list-title">商品信息</view>
-    <form bindsubmit="submitReputation" report-submit="true">
+    <form bindsubmit="toPayTap" report-submit="true">
       <block wx:for-items="{{orderDetail.goodsJsons}}" wx:key="{{index}}">
         <view class="a-goods">
           <view class="img-box">
@@ -73,12 +73,15 @@
         </view>
 
       </block>
+      <view wx:if="{{orderDetail.orderInfo.Status == 0}}" style="display: flex;flex-direction:row-reverse;padding-right: 30rpx; margin-bottom:20rpx;margin-top:20rpx">
+        <view style="display: flex;">
+          <view class="btn" bindtap="cancelOrderTap">取消订单</view>
+          <button class="btnactive" formType="submit">去支付</button>
 
+        </view>
+      </view>
     </form>
-    <view wx:if="{{orderDetail.orderInfo.Status == 0}}" style="display: flex;flex-direction:row-reverse;padding-right: 30rpx; margin-bottom:20rpx;margin-top:20rpx">
-      <view class="btnactive" bindtap="toPayTap">去支付</view>
-      <view class="btn" bindtap="cancelOrderTap">取消订单</view>
-    </view>
+
     <view wx:if="{{(orderDetail.orderInfo.Status==1||orderDetail.orderInfo.Status==2||orderDetail.orderInfo.Status==3||orderDetail.orderInfo.Status==5||orderDetail.orderInfo.Refunding==1)}}" style="display: flex;flex-direction:row-reverse;padding-right: 30rpx; margin-bottom:20rpx;margin-top:20rpx">
       <view wx:if="{{orderDetail.orderInfo.Status == 2}}" class="btnactive" bindtap="receive">确认收货</view>
       <view class="btnactive" hidden="{{(orderDetail.orderInfo.Status==3) ? false : true}}" bindtap="judgeOrder">评价</view>

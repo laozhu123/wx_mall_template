@@ -34,10 +34,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   async onShow() {
-    wx.showLoading({
-      mask: true,
-      title: '合成中...',
-    })
     const goodsDetailRes = await WXAPI.goodsDetail({ id: this.data.goodsid, type:1})
     this.data.pic = goodsDetailRes.data.basicInfo.Pic
     this.data.name = goodsDetailRes.data.basicInfo.Name
@@ -56,7 +52,11 @@ Page({
         _this.setData({
           canvasstyle: 'height:' + (imageSize.imageHeight + additionHeight) + 'px'
         })
-        ctx = wx.createCanvasContext('firstCanvas')
+        wx.showLoading({
+          mask: true,
+          title: '合成中...',
+        })
+        ctx = wx.createCanvasContext('myCanvas')
         ctx.setFillStyle('#fff')
         ctx.fillRect(0, 0, imageSize.windowWidth, imageSize.imageHeight + additionHeight)
         ctx.drawImage(res.path, imageSize.x, imageSize.y, imageSize.imageWidth, imageSize.imageHeight)
@@ -100,9 +100,13 @@ Page({
         wx.getImageInfo({
           src: imageUrl,
           success: (res) => {
+            wx.showLoading({
+              mask: true,
+              title: '合成中...',
+            })
             let left = _imageSize.windowWidth / 3
-            ctx = wx.createCanvasContext('firstCanvas')
-            ctx.drawImage(imageUrl, left, _imageSize.imageHeight + 400, _imageSize.windowWidth , _imageSize.windowWidth)
+            ctx = wx.createCanvasContext('myCanvas')
+            ctx.drawImage(imageUrl, 240, 50, 200, 200)
             
             ctx.setFontSize(12)
             ctx.setFillStyle('#e64340')
@@ -120,7 +124,7 @@ Page({
   },
   saveToMobile() {
     wx.canvasToTempFilePath({
-      canvasId: 'firstCanvas',
+      canvasId: 'myCanvas',
       success: function (res) {
         let tempFilePath = res.tempFilePath
         wx.saveImageToPhotosAlbum({

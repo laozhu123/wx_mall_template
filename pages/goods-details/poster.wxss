@@ -1,5 +1,6 @@
-.canvas {
-  width:750rpx;
+.container{
+  display: flex;
+  flex-direction: column;
 }
 .button {
   width: 700rpx;
