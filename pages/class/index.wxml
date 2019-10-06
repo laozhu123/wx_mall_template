@@ -1,0 +1,35 @@
+<!--主盒子-->
+<view class="container">
+  <!--左侧栏-->
+  <view class="nav_left">
+    <block wx:for="{{navLeftItems}}">
+      <!--当前项的id等于item项的id，那个就是当前状态-->
+      <!--用data-index记录这个数据在数组的下标位置，使用data-id设置每个item的id值，供打开2级页面使用-->
+      <view class="nav_left_items {{curNav == item.id ? 'active' : ''}}" bindtap="switchRightTab" data-index="{{index}}" data-id="{{item.id}}">{{item.Name}}</view>
+    </block>
+  </view>
+  <!--右侧栏-->
+  <!--如果有数据，才遍历项-->
+  <scroll-view class="nav_right" scroll-y="true" bindscrolltoupper="refresh" bindscrolltolower="loadMore">
+    <view wx:if="{{goods.length>0}}">
+      <view class="goods-container">
+        <view class="goods-box" wx:for-items="{{goods}}" wx:key="{{index}}" bindtap="toDetailsTap" data-id="{{item.id}}">
+          <view class="img-box">
+            <image src="{{item.Pic}}" class="image" mode="aspectFill" lazy-load="true" />
+          </view>
+          <view class="goods-title">{{item.Name}}</view>
+          <view style='display:flex;'>
+            <view class="goods-price">¥ {{item.NowPrice/100}}</view>
+            <view wx:if="{{item.OriginalPrice && item.OriginalPrice > 0}}" class="goods-price" style='color:#aaa;text-decoration:line-through'>¥ {{item.OriginalPrice/100}}</view>
+          </view>
+        </view>
+        <view hidden="{{loadingMoreHidden ? true : false}}" class="no-more-goods">没有更多啦</view>
+      </view>
+    </view>
+    <!--如果无数据，则显示数据-->
+    <view wx:else style="width:100%; padding-top:70%; text-align:center" class="no-more-goods">暂无数据</view>
+  </scroll-view>
+</view>
+<view class='coupons-float' bindtap="goShopCart">
+  <image src="/images/gift.png" style="width:60rpx; height:60rpx; margin-top:10rpx"></image>
+</view>

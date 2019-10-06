@@ -21,7 +21,8 @@
     "pages/user-info/index",
     "pages/user-info/sign",
     "pages/order/judge",
-    "pages/shouhou-order-list/index"
+    "pages/shouhou-order-list/index",
+    "pages/class/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -42,7 +43,7 @@
         "text": "首页"
       },
       {
-        "pagePath": "pages/shop-cart/index",
+        "pagePath": "pages/class/index",
         "iconPath": "images/nav/cart-off.png",
         "selectedIconPath": "images/nav/cart-on.png",
         "text": "购物车"
