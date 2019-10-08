@@ -80,7 +80,7 @@
 
       </view>
     </view>
-    <view wx:if="{{!canLoadMore}}" class="no-more-goods">没有更多啦</view>
+    <view wx:if="{{!canLoadMore}}" class="no-more-goods" style="width:100%; text-align:center">没有更多啦</view>
   </view>
-  <view wx:else style="width:100%; padding-top:70%; text-align:center" class="no-more-goods">暂无数据</view>
+  <view wx:else style="width:100%; text-align:center; margin-top:10px" class="no-more-goods">暂无数据</view>
 </view>
