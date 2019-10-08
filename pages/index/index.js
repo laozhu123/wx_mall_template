@@ -51,11 +51,6 @@ Page({
       swiperCurrent: e.detail.current
     })
   },
-  toDetailsTap: function (e) {
-    wx.navigateTo({
-      url: "/pages/goods-details/index?id=" + e.currentTarget.dataset.id
-    })
-  },
   tapBanner: function (e) {
     if (e.currentTarget.dataset.id != 0) {
       wx.navigateTo({
@@ -118,39 +113,7 @@ Page({
       scrollTop: e.scrollTop
     })
   },
-  getGoodsList: function (goodsTypeId, append) {
-    var that = this;
-    WXAPI.goods({
-      goods_type_id: goodsTypeId,
-      name: that.data.inputVal,
-      start: (this.data.curPage-1) * this.data.pageSize,
-      limit: this.data.pageSize,
-      type: 1
-    }).then(function (res) {
-      wx.hideLoading()
-      if (res.code == 404 || res.code == 700 || res.data.list.length == 0) {
-        let newData = {
-          loadingMoreHidden: false
-        }
-        if (!append) {
-          newData.goods = []
-        }
-        that.setData(newData);
-        return
-      }
-      let goods = [];
-      if (append) {
-        goods = that.data.list
-      }
-      for (var i = 0; i < res.data.list.length; i++) {
-        goods.push(res.data.list[i]);
-      }
-      that.setData({
-        loadingMoreHidden: true,
-        goods: goods,
-      });
-    })
-  },
+  
   getCoupons: function () {
     var that = this;
     WXAPI.coupons({status : 0}).then(function (res) {

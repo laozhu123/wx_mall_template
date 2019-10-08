@@ -23,7 +23,7 @@
     "pages/order/judge",
     "pages/shouhou-order-list/index",
     "pages/class/index",
-    "pages/hot-goods-list/index"
+    "pages/goods-list/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

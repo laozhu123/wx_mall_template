@@ -6,23 +6,23 @@
     </view>
     <view class="text">爆款推荐</view>
   </view>
-  <view class="icon" bindtap="goKill">
-    <view class="circle" style="background-color:#C63A77;">
-      <image src="/images/clock.png" class="image"></image>
-    </view>
-    <view class="text">限时秒杀</view>
-  </view>
-  <view class="icon" bindtap="goLimit">
-    <view class="circle" style="background-color:#D26A2D;">
-      <image src="/images/right.png" class="image"></image>
-    </view>
-    <view class="text">优惠限购</view>
-  </view>
   <view class="icon" bindtap="goCut">
     <view class="circle" style="background-color:#E7B551;">
       <image src="/images/deliver.png" class="image"></image>
     </view>
     <view class="text">0元砍价</view>
+  </view>
+  <view class="icon" bindtap="goPingTuan">
+    <view class="circle" style="background-color:#D26A2D;">
+      <image src="/images/right.png" class="image"></image>
+    </view>
+    <view class="text">优惠团购</view>
+  </view>
+  <view class="icon" bindtap="goKill">
+    <view class="circle" style="background-color:#C63A77;">
+      <image src="/images/clock.png" class="image"></image>
+    </view>
+    <view class="text">限时秒杀</view>
   </view>
   <view class="icon" bindtap="goScore">
     <view class="circle" style="background-color:#3E97D1;">
@@ -50,9 +50,14 @@
             <image src="{{item.Pic}}" class="image" mode="aspectFill" lazy-load="true" />
           </view>
           <view class="goods-title">{{item.Name}}</view>
-          <view style='display:flex;'>
-            <view class="goods-price">¥ {{item.NowPrice/100}}</view>
-            <view wx:if="{{item.OriginalPrice && item.OriginalPrice > 0}}" class="goods-price" style='color:#aaa;text-decoration:line-through'>¥ {{item.OriginalPrice/100}}</view>
+          <view class='flex-wrp-row item'>
+            <view class='item-left flex-wrp-row'>
+              <view class="goods-price">¥ {{item.NowPrice/100}}</view>
+            </view>
+            <view class='item-right flex-wrp-row'>
+              <view class="sell">已售{{item.SellNum ? item.SellNum : 0}}件</view>
+            </view>
+
           </view>
         </view>
         <view hidden="{{loadingMoreHidden ? true : false}}" class="no-more-goods">没有更多啦</view>

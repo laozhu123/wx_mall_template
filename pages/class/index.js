@@ -127,27 +127,28 @@ Page({
   },
   goHot: function (e) {
     wx.navigateTo({
-      url: "/pages/shop-cart/index?id=" + e.currentTarget.dataset.id
-    })
-  },
-  goKill: function (e) {
-    wx.navigateTo({
-      url: "/pages/shop-cart/index?id=" + e.currentTarget.dataset.id
-    })
-  },
-  goLimit: function (e) {
-    wx.navigateTo({
-      url: "/pages/shop-cart/index?id=" + e.currentTarget.dataset.id
+      url: "/pages/goods-list/index?kind=1"
     })
   },
   goCut: function (e) {
     wx.navigateTo({
-      url: "/pages/shop-cart/index?id=" + e.currentTarget.dataset.id
+      url: "/pages/goods-list/index?kind=2"
+    })
+  },
+  goPingTuan: function (e) {
+    wx.navigateTo({
+      url: "/pages/goods-list/index?kind=3"
+    })
+  },
+  goKill: function (e) {
+    wx.navigateTo({
+      url: "/pages/goods-list/index?kind=4"
     })
   },
   goScore: function (e) {
     wx.navigateTo({
-      url: "/pages/shop-cart/index?id=" + e.currentTarget.dataset.id
+      url: "/pages/goods-list/index?kind=6"
     })
   },
+  
 })

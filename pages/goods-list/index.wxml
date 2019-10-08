@@ -1,0 +1,20 @@
+<view class="goods-container" wx:if="{{goods.length > 0}}">
+  <view class="goods-box" wx:for-items="{{goods}}" wx:key="*this" bindtap="toDetailsTap" data-id="{{item.id}}">
+    <view class="img-box">
+      <image src="{{item.Pic}}" class="image" mode="aspectFill" lazy-load="true" />
+    </view>
+    <view class="goods-title">{{item.Name}}</view>
+    <view class='flex-wrp-row item'>
+      <view class='item-left flex-wrp-row'>
+        <view class="goods-price">¥ {{item.NowPrice/100}}</view>
+        <view wx:if="{{item.OriginalPrice && item.OriginalPrice > 0 && kind==3}}" class="goods-price" style='color:#aaa;text-decoration:line-through'>¥ {{item.OriginalPrice/100}}</view>
+      </view>
+      <view class='item-right flex-wrp-row'>
+        <view class="sell">已售{{item.SellNum}}件</view>
+      </view>
+
+    </view>
+  </view>
+  <view wx:if="{{!canLoadMore}}" class="no-more-goods">没有更多啦</view>
+</view>
+<view wx:else style="width:100%; padding-top:70%; text-align:center" class="no-more-goods">暂无数据</view>
