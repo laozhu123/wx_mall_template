@@ -1,13 +1,45 @@
 <!--主盒子-->
+<view class="top">
+  <view class="icon" bindtap="goHot">
+    <view class="circle" style="background-color:#408F3A;">
+      <image src="/images/hand.png" class="image"></image>
+    </view>
+    <view class="text">爆款推荐</view>
+  </view>
+  <view class="icon" bindtap="goKill">
+    <view class="circle" style="background-color:#C63A77;">
+      <image src="/images/clock.png" class="image"></image>
+    </view>
+    <view class="text">限时秒杀</view>
+  </view>
+  <view class="icon" bindtap="goLimit">
+    <view class="circle" style="background-color:#D26A2D;">
+      <image src="/images/right.png" class="image"></image>
+    </view>
+    <view class="text">优惠限购</view>
+  </view>
+  <view class="icon" bindtap="goCut">
+    <view class="circle" style="background-color:#E7B551;">
+      <image src="/images/deliver.png" class="image"></image>
+    </view>
+    <view class="text">0元砍价</view>
+  </view>
+  <view class="icon" bindtap="goScore">
+    <view class="circle" style="background-color:#3E97D1;">
+      <image src="/images/score.png" class="image"></image>
+    </view>
+    <view class="text">积分商城</view>
+  </view>
+</view>
 <view class="container">
   <!--左侧栏-->
-  <view class="nav_left">
+  <scroll-view class="nav_left" scroll-y="true" bindscrolltoupper="refresh">
     <block wx:for="{{navLeftItems}}">
       <!--当前项的id等于item项的id，那个就是当前状态-->
       <!--用data-index记录这个数据在数组的下标位置，使用data-id设置每个item的id值，供打开2级页面使用-->
       <view class="nav_left_items {{curNav == item.id ? 'active' : ''}}" bindtap="switchRightTab" data-index="{{index}}" data-id="{{item.id}}">{{item.Name}}</view>
     </block>
-  </view>
+  </scroll-view>
   <!--右侧栏-->
   <!--如果有数据，才遍历项-->
   <scroll-view class="nav_right" scroll-y="true" bindscrolltoupper="refresh" bindscrolltolower="loadMore">
@@ -30,6 +62,9 @@
     <view wx:else style="width:100%; padding-top:70%; text-align:center" class="no-more-goods">暂无数据</view>
   </scroll-view>
 </view>
-<view class='coupons-float' bindtap="goShopCart">
-  <image src="/images/gift.png" style="width:60rpx; height:60rpx; margin-top:10rpx"></image>
+<view class='cart-shop-float' bindtap="goShopCart">
+  <image src="/images/cart_white.png" style="width:60rpx; height:60rpx; margin-top:15rpx"></image>
+</view>
+<view wx:if="{{shopList.length > 0}}" class='cart-shop-num-float' bindtap="goShopCart">
+  {{shopList.length}}
 </view>

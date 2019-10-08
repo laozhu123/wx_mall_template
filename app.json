@@ -22,7 +22,8 @@
     "pages/user-info/sign",
     "pages/order/judge",
     "pages/shouhou-order-list/index",
-    "pages/class/index"
+    "pages/class/index",
+    "pages/hot-goods-list/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -44,9 +45,9 @@
       },
       {
         "pagePath": "pages/class/index",
-        "iconPath": "images/nav/cart-off.png",
-        "selectedIconPath": "images/nav/cart-on.png",
-        "text": "购物车"
+        "iconPath": "images/nav/ic_catefory_normal.png",
+        "selectedIconPath": "images/nav/ic_catefory_pressed.png",
+        "text": "分类"
       },
       {
         "pagePath": "pages/my/index",

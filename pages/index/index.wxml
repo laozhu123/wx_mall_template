@@ -16,28 +16,6 @@
       </view>
       <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>
     </view>
-    <!-- <view class="weui-cells searchbar-result" wx:if="{{inputVal.length > 0}}">
-      <navigator url="" class="weui-cell" hover-class="weui-cell_active">
-        <view class="weui-cell__bd">
-          <view>实时搜索文本</view>
-        </view>
-      </navigator>
-      <navigator url="" class="weui-cell" hover-class="weui-cell_active">
-        <view class="weui-cell__bd">
-          <view>实时搜索文本</view>
-        </view>
-      </navigator>
-      <navigator url="" class="weui-cell" hover-class="weui-cell_active">
-        <view class="weui-cell__bd">
-          <view>实时搜索文本</view>
-        </view>
-      </navigator>
-      <navigator url="" class="weui-cell" hover-class="weui-cell_active">
-        <view class="weui-cell__bd">
-          <view>实时搜索文本</view>
-        </view>
-      </navigator>
-    </view> -->
     <view wx:if="{{noticeList}}" class="notice">
       <image class="notice_icon" src="/images/notice.png"></image>
       <swiper wx:if="{{noticeList}}" class="notice_swiper" vertical="true" autoplay="true" circular="true" interval="3000">
@@ -63,44 +41,7 @@
       </block>
     </view>
   </view>
-  <view class="weui-loadmore weui-loadmore_line" wx:if="{{goodsRecommend.length > 0 && activeCategoryId == 0}}">
-    <view class="weui-loadmore__tips weui-loadmore__tips_in-line">爆品推荐</view>
-  </view>
-  <view class="goods-container" wx:if="{{goodsRecommend.length > 0 && activeCategoryId == 0}}">
-    <view class="goods-box" wx:for-items="{{goodsRecommend}}" wx:key="*this" bindtap="toDetailsTap" data-id="{{item.id}}">
-      <view class="img-box">
-        <image src="{{item.Pic}}" class="image" mode="aspectFill" lazy-load="true" />
-      </view>
-      <view class="goods-title">{{item.Name}}</view>
-      <view style='display:flex;'>
-        <view class="goods-price">¥ {{item.NowPrice/100}}</view>
-        <view wx:if="{{item.OriginalPrice && item.OriginalPrice > 0}}" class="goods-price" style='color:#aaa;text-decoration:line-through'>¥ {{item.OriginalPrice/100}}</view>
-      </view>
-    </view>
-  </view>
-  <block wx:if="{{pingtuanList.length > 0 && activeCategoryId == 0}}">
-    <view class='space'></view>
-    <view class="weui-loadmore weui-loadmore_line">
-      <view class="weui-loadmore__tips weui-loadmore__tips_in-line">全民拼团</view>
-    </view>
-    <view class='tuan'>
-      <view class='tuan-item' wx:for-items="{{pingtuanList}}" wx:key="*this">
-        <view class='tuan-goods-pic'>
-          <image src="{{item.Pic}}" mode="widthFix" lazy-load="true" />
-        </view>
-        <view class='tuan-title'>{{item.Name}}</view>
-        <view class='tuan-profile'>{{item.Characteristic}}</view>
-        <view class="weui-badge" style="margin-left: 20rpx;" wx:if="{{item.Tags}}">{{item.Tags}}</view>
-        <view class='tuan-price'>
-          <text class='now'>￥ {{item.PingTuanPrice/100}}</text>
-          <text class='original'>￥ {{item.OriginalPrice/100}}</text>
-        </view>
-        <view class="tuan-btn">
-          <button type="warn" size="mini" bindtap="toDetailsTap" data-id="{{item.id}}">拼团</button>
-        </view>
-      </view>
-    </view>
-  </block>
+  
 </view>
 <view class='coupons-float' bindtap="goCoupons">
   <image src="/images/gift.png"></image>

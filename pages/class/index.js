@@ -10,12 +10,19 @@ Page({
     curPage: 1,
     pageSize: 20,
     cateScrollTop: 0,
-    activeCategoryId: 0
+    activeCategoryId: 0,
+    shopList: [],
   },
   onLoad: function() {
     // 加载的使用进行网络访问，把需要的数据设置到data数据对象
     var that = this
-
+    var shopList = [];
+    // 获取购物车数据
+    var shopCarInfoMem = wx.getStorageSync('shopCarInfo');
+    if (shopCarInfoMem && shopCarInfoMem.shopList) {
+      shopList = shopCarInfoMem.shopList
+    }
+    that.setData({shopList: shopList})
     WXAPI.goodsCategory({
       type: '1',
       start: '0',
@@ -117,6 +124,30 @@ Page({
     wx.navigateTo({
       url: "/pages/shop-cart/index?id=" + e.currentTarget.dataset.id
     })
-  }
-
+  },
+  goHot: function (e) {
+    wx.navigateTo({
+      url: "/pages/shop-cart/index?id=" + e.currentTarget.dataset.id
+    })
+  },
+  goKill: function (e) {
+    wx.navigateTo({
+      url: "/pages/shop-cart/index?id=" + e.currentTarget.dataset.id
+    })
+  },
+  goLimit: function (e) {
+    wx.navigateTo({
+      url: "/pages/shop-cart/index?id=" + e.currentTarget.dataset.id
+    })
+  },
+  goCut: function (e) {
+    wx.navigateTo({
+      url: "/pages/shop-cart/index?id=" + e.currentTarget.dataset.id
+    })
+  },
+  goScore: function (e) {
+    wx.navigateTo({
+      url: "/pages/shop-cart/index?id=" + e.currentTarget.dataset.id
+    })
+  },
 })

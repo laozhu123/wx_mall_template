@@ -7,11 +7,7 @@ Page({
     inputShowed: false, // 是否显示搜索框
     inputVal: "", // 搜索框内容
     category_box_width: 750, //分类总宽度
-    goodsRecommend: [], // 推荐商品
-    kanjiaList: [], //砍价商品列表
-    pingtuanList: [], //拼团商品列表
-    kanjiaGoodsMap: {}, //砍价商品列表
-
+  
     indicatorDots: true,
     autoplay: true,
     interval: 3000,
@@ -113,42 +109,8 @@ Page({
         icon: 'none'
       })
     })
-    WXAPI.goodsCategory({
-      type: '1'
-    }).then(function (res) {
-      // let categories = [{
-      //   id: 0,
-      //   icon: '/images/fl.png',
-      //   name: "全部"
-      // }];
-      let categories = [];
-      if (res.code == 0) {
-        categories = categories.concat(res.data.list)
-      }
-      const _n = Math.ceil(categories.length / 2)
-      // const _n = Math.ceil(categories.length)
-      that.setData({
-        categories: categories,
-        category_box_width: 150 * _n,
-        activeCategoryId: 0,
-        curPage: 1
-      });
-      that.getGoodsList(0);
-    })
-    WXAPI.goods({
-      type: '1',
-      kind: '1'
-    }).then(res => {
-      if (res.code === 0) {
-        that.setData({
-          goodsRecommend: res.data.list
-        })
-      }
-    })
     that.getCoupons()
     that.getNotice()
-    that.kanjiaGoods()
-    that.pingtuanGoods()
   },
   onPageScroll(e) {
     let scrollTop = this.data.scrollTop
@@ -221,19 +183,19 @@ Page({
     });
     this.getGoodsList(this.data.activeCategoryId);
   },
-  onReachBottom: function () {
-    this.setData({
-      curPage: this.data.curPage + 1
-    });
-    this.getGoodsList(this.data.activeCategoryId, true)
-  },
-  onPullDownRefresh: function () {
-    this.setData({
-      curPage: 1
-    });
-    this.getGoodsList(this.data.activeCategoryId)
-    wx.stopPullDownRefresh()
-  },
+  // onReachBottom: function () {
+  //   this.setData({
+  //     curPage: this.data.curPage + 1
+  //   });
+  //   this.getGoodsList(this.data.activeCategoryId, true)
+  // },
+  // onPullDownRefresh: function () {
+  //   this.setData({
+  //     curPage: 1
+  //   });
+  //   this.getGoodsList(this.data.activeCategoryId)
+  //   wx.stopPullDownRefresh()
+  // },
   // 以下为搜索框事件
   showInput: function () {
     this.setData({
