@@ -41,8 +41,46 @@
       </block>
     </view>
   </view>
-  
-</view>
-<view class='coupons-float' bindtap="goCoupons">
-  <image src="/images/gift.png"></image>
+  <view class="block" style="height:10px"></view>
+  <view class="coupon-title" bindtap="goCoupons">
+    <view class="left">优惠卡券</view>
+    <view class="right">查看更多</view>
+  </view>
+  <view class="coupon-container" style="height:140px">
+    <swiper class="swiper_box" autoplay="{{autoplay}}" interval="{{interval2}}" duration="{{duration}}" bindchange="swiperchange">
+      <block wx:for="{{coupons}}" wx:key="id">
+        <swiper-item>
+          <view class="coupon-item" style="background-color: {{item.Color}}" bindtap="goCoupons">
+            <view class="name">{{item.Name}}</view>
+            <view class="time" wx:if="{{item.DateEndType==1}}">领取当天生效,有效期{{item.ExpireDays}}天</view>
+            <view class="time" wx:else>有效期至{{item.DateEnd}}</view>
+            <view class="rob">{{item.UserHasRob==1 ? '已领取' : '未领取'}}</view>
+          </view>
+        </swiper-item>
+      </block>
+    </swiper>
+  </view>
+  <view class="line"></view>
+  <view class="all-goods-text">全部商品</view>
+  <view class="line"></view>
+  <view class="goods-container" wx:if="{{goods.length > 0}}">
+    <view class="goods-box" wx:for-items="{{goods}}" wx:key="*this" bindtap="toDetailsTap" data-id="{{item.id}}">
+      <view class="img-box">
+        <image src="{{item.Pic}}" class="image" mode="aspectFill" lazy-load="true" />
+      </view>
+      <view class="goods-title">{{item.Name}}</view>
+      <view class='flex-wrp-row item'>
+        <view class='item-left flex-wrp-row'>
+          <view class="goods-price">¥ {{item.NowPrice/100}}</view>
+          <view wx:if="{{item.OriginalPrice && item.OriginalPrice > 0 && kind==3}}" class="goods-price" style='color:#aaa;text-decoration:line-through'>¥ {{item.OriginalPrice/100}}</view>
+        </view>
+        <view class='item-right flex-wrp-row'>
+          <view class="sell">已售{{item.SellNum ? item.SellNum : 0}}件</view>
+        </view>
+
+      </view>
+    </view>
+    <view wx:if="{{!canLoadMore}}" class="no-more-goods">没有更多啦</view>
+  </view>
+  <view wx:else style="width:100%; padding-top:70%; text-align:center" class="no-more-goods">暂无数据</view>
 </view>

@@ -144,6 +144,9 @@ module.exports = {
   getCanRobCoupons: (data) => {
     return request('/v1/coupon_template/get_coupon_template_list', false, 'post', data)
   },
+  getAllCoupons: (data) => {
+    return request('/v1/user_coupon/get_coupon_list_by_user_id', false, 'post', data)
+  },
   robCoupons: (data) => {
     return request('/v1/user_coupon/user_rob_coupon_by_id', false, 'post', data)
   },

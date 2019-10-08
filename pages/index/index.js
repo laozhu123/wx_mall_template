@@ -11,6 +11,7 @@ Page({
     indicatorDots: true,
     autoplay: true,
     interval: 3000,
+    interval2: 5000,
     duration: 1000,
     loadingHidden: false, // loading
     userInfo: {},
@@ -24,26 +25,16 @@ Page({
     loadingMoreHidden: true,
 
     coupons: [],
+    cateScrollTop: 0,
+    color: '#289987',
 
     curPage: 1,
     pageSize: 20,
-    cateScrollTop: 0
+    canLoadMore: false,
+    goods: [],
   },
 
-  tabClick: function (e) {
-    let offset = e.currentTarget.offsetLeft;
-    if (offset > 150) {
-      offset = offset - 150
-    } else {
-      offset = 0;
-    }
-    this.setData({
-      activeCategoryId: e.currentTarget.id,
-      curPage: 1,
-      cateScrollTop: offset
-    });
-    this.getGoodsList(this.data.activeCategoryId);
-  },
+  
   //事件处理函数
   swiperchange: function (e) {
     //console.log(e.detail.current)
@@ -57,11 +48,6 @@ Page({
         url: "/pages/goods-details/index?id=" + e.currentTarget.dataset.id
       })
     }
-  },
-  bindTypeTap: function (e) {
-    this.setData({
-      selectCurrent: e.index
-    })
   },
   onLoad: function (e) {
     wx.showShareMenu({
@@ -106,6 +92,72 @@ Page({
     })
     that.getCoupons()
     that.getNotice()
+    that.getGoodsList()
+  },
+  /**
+     * 页面相关事件处理函数--监听用户下拉动作
+     */
+  onPullDownRefresh: function () {
+    this.setData({
+      curPage: 1,
+      pageSize: 20
+    })
+    this.getGoodsList(false)
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+    if (this.data.canLoadMore) {
+      this.data.setData({
+        curPage: this.data.curPage + 1
+      })
+      this.getGoodsList(true)
+    }
+  },
+  getGoodsList: function (append) {
+    var that = this;
+    WXAPI.goods({
+      start: (this.data.curPage - 1) * this.data.pageSize,
+      limit: this.data.pageSize,
+      type: 1,
+      name: that.data.inputVal,
+    }).then(function (res) {
+      wx.hideLoading()
+      if (res.code == 404 || res.code == 700 || res.data.list.length == 0) {
+        let newData = {
+          loadingMoreHidden: false
+        }
+        if (!append) {
+          newData.goods = []
+        }
+        that.setData(newData);
+        return
+      }
+      let goods = [];
+      if (append) {
+        goods = that.data.list
+      }
+      var canLoadMore = false
+      if (res.data.list.length == that.data.pageSize) {
+        canLoadMore = true
+      }
+      for (var i = 0; i < res.data.list.length; i++) {
+        goods.push(res.data.list[i]);
+      }
+      that.setData({
+        loadingMoreHidden: true,
+        goods: goods,
+        canLoadMore: canLoadMore,
+      });
+    })
+  },
+
+  toDetailsTap: function (e) {
+    wx.navigateTo({
+      url: "/pages/goods-details/index?id=" + e.currentTarget.dataset.id
+    })
   },
   onPageScroll(e) {
     let scrollTop = this.data.scrollTop
@@ -116,10 +168,10 @@ Page({
   
   getCoupons: function () {
     var that = this;
-    WXAPI.coupons({status : 0}).then(function (res) {
+    WXAPI.getAllCoupons({}).then(function (res) {
       if (res.code == 0) {
         that.setData({
-          coupons: res.data.list
+          coupons: res.data
         });
       }
     })
@@ -144,7 +196,7 @@ Page({
     this.setData({
       curPage: 1
     });
-    this.getGoodsList(this.data.activeCategoryId);
+    this.getGoodsList(false);
   },
   // onReachBottom: function () {
   //   this.setData({
@@ -181,34 +233,9 @@ Page({
       inputVal: e.detail.value
     });
   },
-  // 以下为砍价业务
-  kanjiaGoods() {
-    const _this = this
-    WXAPI.kanjiaList({type : 1}).then(function (res) {
-      if (res.code == 0) {
-        _this.setData({
-          kanjiaList: res.data.list,
-          kanjiaGoodsMap: res.data.goodsMap
-        })
-      }
-    })
-  },
   goCoupons: function (e) {
     wx.navigateTo({
       url: "/pages/coupons/index"
-    })
-  },
-  pingtuanGoods() { // 获取团购商品列表
-    const _this = this
-    WXAPI.goods({
-      type : 1,
-      kind : 3
-    }).then(res => {
-      if (res.code === 0) {
-        _this.setData({
-          pingtuanList: res.data.list
-        })
-      }
     })
   }
 })

@@ -10,7 +10,7 @@
         <view wx:if="{{item.OriginalPrice && item.OriginalPrice > 0 && kind==3}}" class="goods-price" style='color:#aaa;text-decoration:line-through'>¥ {{item.OriginalPrice/100}}</view>
       </view>
       <view class='item-right flex-wrp-row'>
-        <view class="sell">已售{{item.SellNum}}件</view>
+        <view class="sell">已售{{item.SellNum ? item.SellNum : 0}}件</view>
       </view>
 
     </view>
