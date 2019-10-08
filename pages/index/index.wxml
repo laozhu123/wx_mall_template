@@ -1,5 +1,5 @@
 <view class="container">
-  <view class="page__bd">
+  <view class="page__bd" style="background-color:#f3f3f3">
     <view class="weui-search-bar">
       <view class="weui-search-bar__form">
         <view class="weui-search-bar__box">

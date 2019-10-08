@@ -1,0 +1,13 @@
+<view class="goods-container" wx:if="{{coupons.length > 0}}">
+  <view class="goods-box" wx:for-items="{{coupons}}" wx:key="*this" data-id="{{item.id}}">
+    <view class="coupon-item" style="background-color: {{item.Color}}">
+      <view class="name">{{item.Name}}</view>
+      <view class="time" wx:if="{{item.DateEndType==1}}">领取当天生效,有效期{{item.ExpireDays}}天</view>
+      <view class="time" wx:else>有效期至{{item.DateEnd}}</view>
+      <view class="rob" wx:if="{{item.UserHasRob==1}}">已领取</view>
+      <view class="rob" wx:else bindtap="getCounpon" data-id="{{item.id}}">未领取</view>
+    </view>
+  </view>
+  <view wx:if="{{!canLoadMore}}" class="no-more-goods">没有更多啦</view>
+</view>
+<view wx:else style="width:100%; padding-top:70%; text-align:center" class="no-more-goods">暂无数据</view>

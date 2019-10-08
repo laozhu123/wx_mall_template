@@ -94,6 +94,9 @@ Page({
     that.getNotice()
     that.getGoodsList()
   },
+  onShow: function(){
+    this.getCoupons()
+  },
   /**
      * 页面相关事件处理函数--监听用户下拉动作
      */
@@ -235,7 +238,7 @@ Page({
   },
   goCoupons: function (e) {
     wx.navigateTo({
-      url: "/pages/coupons/index"
+      url: "/pages/coupons-new/index"
     })
   },
   // 以下为搜索框事件
