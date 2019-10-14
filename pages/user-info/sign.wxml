@@ -1,8 +1,0 @@
-<!--pages/user-info/sign.wxml-->
-<form bindsubmit="save" style="width:100%;">
-  <textarea placeholder="输入您的个性签名" bindinput="inputChange" value="{{content}}" maxlength="50" style="width:95%; padding:30rpx; font-size=14px; margin-top:30rpx; background:#fff" flex->
-    <text class="num">{{num}}/50</text>
-  </textarea>
-
-  <button class="red-btn" form-type="submit">保存</button>
-</form>
