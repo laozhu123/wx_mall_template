@@ -5,7 +5,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    user_head: "../../images/default_head.png",
+    index: 0,
+    showNotice: true,
+    powerImage: "../../images/power_on.png"
   },
 
   /**
@@ -26,6 +29,25 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    var that = this
+    if (that.data.showNotice){
+      var helo = setInterval(function () { that.setData({ showNotice: !that.data.showNotice }) }, 500)
+      setInterval(function () { 
+        var image = "../../images/power_on.png"
+        if (that.data.powerImage == "../../images/power_on.png"){
+          image = "../../images/power_off.png"
+        }
+        that.setData({ powerImage : image}) }, 300)
+      setTimeout(function(){
+          clearInterval(helo)
+          that.setData({
+          showNotice:false
+          })
+        },3000)
+    }
+  },
+
+  share: function () {
 
   },
 

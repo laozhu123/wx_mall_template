@@ -1,2 +1,11 @@
-<!--pages/index/index.wxml-->
-<text>pages/index/index.wxml</text>
+<view class='bg' >
+
+</view><!-- welcome.wxml -->
+<view bindtap="goHome" class="warp">
+    <image class="back" src="../../images/night_back.png"></image>
+    <text class="index">当前排名{{index}}名</text>
+    <image class="head" src="{{user_head}}" background-size="cover"></image>
+    <image class="rocket" src="../../images/rocket.png"></image>
+    <text wx:if="{{showNotice}}" class="speed_up">点击加速</text>
+    <image class="power" src="{{powerImage}}" bindtap="share"></image>
+</view>
