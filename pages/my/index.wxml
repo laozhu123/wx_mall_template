@@ -13,12 +13,12 @@
     <view  class="title">我的奖品</view>
   </view>
   <view class="my-item" bindtap="contactUs" style="margin-top: 15rpx;">
-   <image class="bg" src="../../images/item_bg.png"></image>
-    <view class="title" style="top:273px">联系我们</view>
+    <image class="bg" src="../../images/item_bg.png"></image>
+    <view class="title" style="top:540rpx">联系我们</view>
   </view>
   <view class="my-item" bindtap="aboutUs" style="margin-top: 15rpx;">
    <image class="bg" src="../../images/item_bg.png"></image>
-    <view class="title" style="top:331px">关于我们</view>
+    <view class="title" style="top:660rpx">关于我们</view>
   </view>
 
 </view>

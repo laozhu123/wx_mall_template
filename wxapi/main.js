@@ -112,6 +112,6 @@ module.exports = {
     return request('/v1/user/get_user_by_id', false, 'post', data)
   },
   getUserInfoById: (data) => {
-    return request('/v1/user/get_user_by_id', false, 'post', data)
+    return request('/v1/user/get_user_by_user_id', false, 'post', data)
   },
 }

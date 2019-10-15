@@ -16,14 +16,14 @@ Page({
       "Color": "#2C9F67",
       "ExpireTime": "2020-01-01 00:00:00"
     }, {
-        "id": 1,
-        "Status": 1,
-        "Name": "精品课程10节",
-        "CreateTime": "2019-09-10 00:00:00",
-        "Num": 3,
-        "Color": "#5885CF",
-        "ExpireTime": "2020-01-01 00:00:00"
-      }],
+      "id": 1,
+      "Status": 1,
+      "Name": "精品课程10节",
+      "CreateTime": "2019-09-10 00:00:00",
+      "Num": 3,
+      "Color": "#5885CF",
+      "ExpireTime": "2020-01-01 00:00:00"
+    }],
   },
 
   /**
@@ -81,11 +81,11 @@ Page({
 
   },
 
-  getGift: function() {
+  getGift: function () {
     this.contactUs()
   },
 
-   contactUs: function () {
+  contactUs: function () {
     var bossName = wx.getStorageSync("bossName")
     var tel = wx.getStorageSync("mallTel")
     wx.showModal({

@@ -21,10 +21,10 @@ Page{
 }
 
 .my-item .title{
-  height: 20px;
+  height: 40rpx;
   position: absolute;
-  left: 60px;
-  top: 213px;
+  left: 120rpx;
+  top: 430rpx;
   color:aqua;
 }
 
@@ -48,17 +48,18 @@ Page{
   width: 85px;
   height: 85px;
   position: absolute;
-  left: 30px;
-  top: 52px;
+  left: 60rpx;
+  top: 104rpx;
 }
 .my-container .head{
   width: 53px;
   height: 53px;
   position: absolute;
   border-radius: 27px;
-  left: 46px;
-  top: 68px;
+  left: 92rpx;
+  top: 136rpx;
 }
+
 .my-container .name{
   height: 20px;
   position: absolute;

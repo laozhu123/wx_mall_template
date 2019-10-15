@@ -13,7 +13,7 @@ Page({
     showNotice: true,
     powerImage: "../../images/power_on.png",
     user: undefined,
-    openShare: false,
+    openShare: false, // 展示邀请好友
 
     // 展示求助者信息
     help_img: "../../images/default_head.png",
@@ -21,6 +21,7 @@ Page({
     help_index: "1",
     help_occupation: "资深航天员",
     show_help: false,
+    hasHelpUser: false,
 
     // 显示加速动图
     show_speed_up: false,
@@ -28,9 +29,6 @@ Page({
 
     // 抽奖显示
     show_choujiang: false,
-
-    
-
   },
 
   /**
@@ -57,11 +55,19 @@ Page({
     })
 
     if (e && e.userId) {
+      console.log(e.userId,e.shopId)
       WXAPI.getUserInfoById({userId : e.userId}).then(function(res){
         if (res.code != 0) {
+          
           // 登录错误
         } else {
-          
+          console.log('show_help')
+          that.setData({
+            help_img: res.data.Icon,
+            help_nick:res.data.Nick,
+            show_help: true,
+            hasHelpUser: true,
+          })
         }
       })
     }
@@ -79,6 +85,8 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    //隐藏由share所产生的loading
+    wx.hideLoading()
     var that = this
     if (that.data.showNotice){
       var helo = setInterval(function () { that.setData({ showNotice: !that.data.showNotice }) }, 500)
@@ -113,7 +121,6 @@ Page({
   },
 
   goMyPage: function (e) {
-    console.log('helo')
     wx.navigateTo({
       url: "/pages/my/index"
     })
@@ -139,8 +146,8 @@ Page({
       app.goLoginPageTimeOut()
     }else{
       that.setData({
-        // openShare: true
-        show_help: true
+        openShare: true
+        // show_help: true
         // show_choujiang: true
       })
     }
@@ -234,10 +241,12 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-    console.log(this.data.user.id)
+    wx.showLoading({
+      title: '加载中...',
+    })
     return {
       title: '助力登月50周年', //自定义转发标题
-      path: '/pages/index/index?userId='+this.data.user.id.toString()+'shopId='+this.data.user.shopId, //分享页面路径
+      path: '/pages/index/index?userId='+this.data.user.id.toString()+'&shopId=1', //分享页面路径
     }
   }
 })
