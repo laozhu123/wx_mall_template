@@ -33,17 +33,7 @@ App({
           })
         }
       }
-    })
-    //  获取商城名称
-    WXAPI.getAppDetail().then(function (res) {
-      if (res.code == 0) {
-        wx.setStorageSync("mallName", res.data.Name);
-        wx.setStorageSync("ALLOW_SELF_COLLECTION", res.data.ZiTi);
-        wx.setStorageSync("mallTel", res.data.Tel)
-        wx.setStorageSync("bossName", res.data.BossName)
-      }
-    })
-
+    }) 
   },
   globalData: {
     userInfo: null

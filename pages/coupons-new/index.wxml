@@ -2,10 +2,9 @@
   <view class="goods-box" wx:for-items="{{coupons}}" wx:key="*this" data-id="{{item.id}}">
     <view class="coupon-item" style="background-color: {{item.Color}}">
       <view class="name">{{item.Name}}</view>
-      <view class="time" wx:if="{{item.DateEndType==1}}">领取当天生效,有效期{{item.ExpireDays}}天</view>
-      <view class="time" wx:else>有效期至{{item.DateEnd}}</view>
-      <view class="rob" wx:if="{{item.UserHasRob==1}}">已领取</view>
-      <view class="rob" wx:else bindtap="getCounpon" data-id="{{item.id}}">未领取</view>
+      <view class="time">有效期至{{item.ExpireTime}}</view>
+      <view class="rob" wx:if="{{item.Status==1}}">已领取</view>
+      <view class="rob" wx:else bindtap="getGift" data-id="{{item.id}}">未领取</view>
     </view>
   </view>
   <view wx:if="{{!canLoadMore}}" class="no-more-goods">没有更多啦</view>

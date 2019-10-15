@@ -7,26 +7,29 @@ Page({
    * 页面的初始数据
    */
   data: {
-    coupons: [],
+    coupons: [{
+      "id": 3,
+      "Status": 0,
+      "Name": "文具铅笔",
+      "CreateTime": "2019-09-10 00:00:00",
+      "Num": 3,
+      "Color": "#2C9F67",
+      "ExpireTime": "2020-01-01 00:00:00"
+    }, {
+        "id": 1,
+        "Status": 1,
+        "Name": "精品课程10节",
+        "CreateTime": "2019-09-10 00:00:00",
+        "Num": 3,
+        "Color": "#5885CF",
+        "ExpireTime": "2020-01-01 00:00:00"
+      }],
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    const that = this
-    that.getCoupons()
-  },
-
-  getCoupons: function () {
-    var that = this;
-    WXAPI.getAllCoupons({}).then(function (res) {
-      if (res.code == 0) {
-        that.setData({
-          coupons: res.data
-        });
-      }
-    })
   },
 
   /**
@@ -78,24 +81,23 @@ Page({
 
   },
 
-  getCounpon: function (e) {
-    const that = this
-    WXAPI.robCoupons({
-      coupon_id: e.currentTarget.dataset.id,
-    }).then(function (res) {
-      if (res.code == 0) {
-        wx.showToast({
-          title: '领取成功，赶紧去下单吧~',
-          icon: 'success',
-          duration: 2000
-        })
-        that.getCoupons()
-      } else {
-        wx.showModal({
-          title: '错误',
-          content: res.msg,
-          showCancel: false
-        })
+  getGift: function() {
+    this.contactUs()
+  },
+
+   contactUs: function () {
+    var bossName = wx.getStorageSync("bossName")
+    var tel = wx.getStorageSync("mallTel")
+    wx.showModal({
+      title: '联系我们',
+      content: '客服电话：' + tel,
+      confirmText: '拨打',
+      success(res) {
+        if (res.confirm) {
+          wx.makePhoneCall({
+            phoneNumber: tel
+          })
+        } else if (res.cancel) { }
       }
     })
   },

@@ -1,156 +1,82 @@
+Page{
+  background: #061F3E;
+}
+
 .container{
   min-height: 100%;
   overflow: hidden;
   overflow-y: hidden;
 }
 
-.userinfo {
-	display: flex;
-	flex-direction: row;
-	align-items: left;
-  padding: 30rpx;
-}
-
-.userInfoBg {
-  background-color: #20B31C;
-  margin: 30rpx 3%;
-  border-radius: 30rpx;
-  width: 94%;
-}
-
-.order-out-bg{
-  background-color: #FEFEFE;
-  margin: 0 3%;
-  border-radius: 10rpx;
-  width: 94%; 
-  border: 1px solid #ddd;
-}
-
-.userinfo-avatar {
-	width: 130rpx;
-	height: 130rpx;
-  border-radius: 65rpx;
-  margin-left: 15rpx;
-}
-.userinfo-nickname {
-  margin-top: 10rpx;
-  margin-bottom: 10rpx;
-  font-size: 15px;
-  margin-left: 25rpx;
-  color: #fff;
-}
-
-.userinfo-tel {
-  margin-bottom: 20rpx;
-  font-size: 15px;
-  margin-left: 25rpx;
-  color: #fff;
-}
-
-.nick-tel{
-  display: flex;
-  flex-direction: column;
-}
-
-.asset {
-  display: flex;
-  padding-bottom:20rpx;
-  justify-content: space-around;
-}
-.asset .item {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  font-size: 13px;
-  color: #fff;
-  line-height: 20px;
-}
-
-.version {
-  width:100%;
-  height: 80rpx;
-	line-height: 40rpx;
-	font-size: 28rpx;
-	text-align: center;  
-  padding: 40rpx;
-  margin-top: 40rpx;
-  color: #b7b7b7;
-}
-
 .my-item{
-    width: 92%;
-    background: url(https://cdn.it120.cc/images/weappshop/arrow-right.png) no-repeat 98% center;
-    background-size: 20rpx auto,98% auto;
-    border-bottom: 1px solid #eee;
+    width: 85%;
     height: 100rpx;
     line-height: 100rpx;
     font-size:15px;
-    display: flex;
-    align-items: center;
 }
 
-.my-item-no-arrow{
-    width: 96%;
-    border-bottom: 1px solid #eee;
-    height: 70rpx;
-    line-height: 70rpx;
-    padding-left: 30rpx;
-    font-size:16px;
+.my-item .bg{
+  width: 95%;
+  height: 100%;
 }
 
-.about{
-    width: 100%;
-    background: url(https://cdn.it120.cc/images/weappshop/arrow-right.png) no-repeat 750rpx center;
-    background-size: 16rpx auto,750rpx auto;
-    margin: 20rpx 0; 
-    height: 80rpx;
-    line-height: 80rpx;
-    padding-left: 100rpx;
+.my-item .title{
+  height: 20px;
+  position: absolute;
+  left: 60px;
+  top: 213px;
+  color:aqua;
 }
 
-.order-shortcut {
-  display: flex;
-  padding-top: 20rpx;
-  padding-bottom: 20rpx;
-  background-color: #E6E6E6;
-  margin: 30rpx;
-  border-radius: 10rpx;
-  justify-content: space-around;
+.my-container{
+  width: 94%;
+  height:400rpx;
+  border-radius: 8px;
+  margin-top: 12px;
+  font-size: 13px;
+  position:fixed;
 }
-.order-shortcut .item {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  width: 17%;
-  align-items: center;
-}
-.order-shortcut .item .icon {
-  width: 67rpx;
-  height: 67rpx;
-}
-.order-shortcut .item .text {
-  font-size: 10px;
-  color: #666;
-}
-.to-authorize{
-  border: none;
-  padding: 0rpx;
-  margin: 0rpx;
-  background: none;
-  height: auto;
-  line-height: auto;
-}
-/* 绑定手机号 */
-.bind-phone-number{
-  margin: 20rpx;
+.my-container .back{
   width: 100%;
+  height: 100%;
+  position: absolute;
+  border-radius: 8px;
+  left: 0;
+  top: 0;
 }
-
-.icon1 {
-  width: 45rpx;
-  height: 45rpx;
+.my-container .head_back{
+  width: 85px;
+  height: 85px;
+  position: absolute;
+  left: 30px;
+  top: 52px;
 }
-
-.bigSize {
-  font-size: 18px;
+.my-container .head{
+  width: 53px;
+  height: 53px;
+  position: absolute;
+  border-radius: 27px;
+  left: 46px;
+  top: 68px;
+}
+.my-container .name{
+  height: 20px;
+  position: absolute;
+  left: 120px;
+  top: 65px;
+  color:aqua;
+}
+.my-container .occupation{
+  height: 20px;
+  position: absolute;
+  left: 120px;
+  top: 85px;
+  color:aqua;
+}
+.my-container .help_index{
+  height: 20px;
+  position: absolute;
+  left: 120px;
+  top: 105px;
+  color:aqua;
 }

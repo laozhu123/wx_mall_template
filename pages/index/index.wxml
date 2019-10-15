@@ -1,11 +1,44 @@
-<view class='bg' >
+<view class='bg'>
 
-</view><!-- welcome.wxml -->
-<view bindtap="goHome" class="warp">
-    <image class="back" src="../../images/night_back.png"></image>
-    <text class="index">当前排名{{index}}名</text>
-    <image class="head" src="{{user_head}}" background-size="cover"></image>
-    <image class="rocket" src="../../images/rocket.png"></image>
-    <text wx:if="{{showNotice}}" class="speed_up">点击加速</text>
-    <image class="power" src="{{powerImage}}" bindtap="share"></image>
+</view>
+<!-- welcome.wxml -->
+<view class="warp">
+  <image class="back" src="../../images/night_back.png"></image>
+  <text class="index">当前排名{{index}}名</text>
+  <image class="head" src="{{user_head}}" background-size="cover" bindtap="goMyPage"></image>
+  <image class="rocket" src="../../images/rocket.gif"></image>
+  <text wx:if="{{showNotice}}" class="speed_up">点击加速</text>
+  <image class="power" src="{{powerImage}}" bindtap="showShareDiv"></image>
+  <view wx:if="{{openShare}}" class="shareFloatDiv1"></view>
+  <view wx:if="{{openShare}}" class="shareFloatDiv2">
+    <view class="p1">
+      邀请好友来助力
+    </view>
+    <view class="btn-container">
+      <button class="weui-btn weui-btn_primary" style="width:40%; height:40px;font-size:15px; margin-top:14px;" type="primary" open-type="share">确定</button>
+      <button class="weui-btn weui-btn_default" style="width:40%; height:40px; font-size:15px" bindtap="closeShareDiv"> 取消 </button>
+    </view>
+  </view>
+  <view wx:if="{{show_help}}" class="shareFloatDiv1"></view>
+  <view wx:if="{{show_help}}" class="zhuli-container">
+    <image class="back"  src="../../images/tech_dialog.jpg"></image>
+    <image class="head_back" src="../../images/head_back.gif"></image>
+    <image class="head" src="{{help_img}}"></image>
+    <text class="name">姓名：{{help_nick}}</text>
+    <text class="occupation">职位：{{help_occupation}}</text>
+    <text class="help_index">排名：第{{help_index}}位</text>
+    <text class="zhuli_btn_off" bindtap="zhuli_cancel">取消</text>
+    <text class="zhuli_btn_on" bindtap="zhuli">助力</text>
+  </view>
+
+  <view wx:if="{{show_speed_up}}" class="shareFloatDiv1"></view>
+  <view wx:if="{{show_speed_up}}" class="motion_rocket-container">
+    <image class="back"  src="../../images/speed_rocket.gif"></image>
+  </view>
+
+  <view wx:if="{{show_choujiang}}" class="shareFloatDiv1"></view>
+  <view wx:if="{{show_choujiang}}" class="choujiang-container">
+    <image class="back"  src="../../images/choujiang.png"></image>
+    <view class="invisible-btn" bindtap="choujiang"></view>
+  </view>
 </view>

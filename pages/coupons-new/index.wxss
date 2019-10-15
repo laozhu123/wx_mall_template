@@ -1,4 +1,7 @@
 /* pages/coupons-new/index.wxss */
+Page{
+  background: #061F3E;
+}
 .coupon-item{
   width: 96%;
   margin-left: 2%;
@@ -51,7 +54,6 @@
 }
 .goods-box{
   width: 100%;
-  background-color: #fff;
   overflow: hidden;
   border-radius:5px;
 }

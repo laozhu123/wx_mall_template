@@ -13,11 +13,11 @@ page {
 }
 
 .warp .rocket{
-    width: 160rpx;
-    height: 300rpx;
+    width: 300rpx;
+    height: 400rpx;
     position: absolute;
-    top: 60%;
-    left: 43%;
+    top: 50%;
+    left: 35%;
 }
 
 .warp .head{
@@ -66,4 +66,148 @@ page {
     position: absolute;
     top: 75%;
     left: 80%;
+}
+.shareFloatDiv1 {
+  position:fixed;
+  top: 0px;
+  left: 0px;
+  width:100%;
+  height:100%;
+  background-color:#555;filter:Alpha(Opacity=60);opacity:0.6;
+  z-index: 99998;
+}
+.shareFloatDiv2 {
+  position:fixed;
+  width:60%;
+  height:200rpx;
+  background-color: #ffffff;
+  bottom: 40%;
+  border-radius: 6px;
+  z-index: 99999;
+  margin-left: 20%;
+}
+.shareFloatDiv2 .p1 {
+  margin-left: 24%;
+  margin-top: 15px;
+}
+.btn-container{
+  display: flex;
+  flex-direction: row;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.zhuli-container{
+  position:fixed;
+  width: 80%;
+  height:400rpx;
+  bottom: 40%;
+  border-radius: 8px;
+  z-index: 99999;
+  margin-left: 10%;
+  font-size: 13px;
+}
+.zhuli-container .back{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  border-radius: 8px;
+  left: 0;
+  top: 0;
+}
+.zhuli-container .head_back{
+  width: 85px;
+  height: 85px;
+  position: absolute;
+  left: 30px;
+  top: 52px;
+}
+.zhuli-container .head{
+  width: 53px;
+  height: 53px;
+  position: absolute;
+  border-radius: 27px;
+  left: 46px;
+  top: 68px;
+}
+.zhuli-container .name{
+  height: 20px;
+  position: absolute;
+  left: 120px;
+  top: 65px;
+  color:aqua;
+}
+.zhuli-container .occupation{
+  height: 20px;
+  position: absolute;
+  left: 120px;
+  top: 85px;
+  color:aqua;
+}
+.zhuli-container .help_index{
+  height: 20px;
+  position: absolute;
+  left: 120px;
+  top: 105px;
+  color:aqua;
+}
+.zhuli-container .zhuli_btn_on{
+  height: 20px;
+  position: absolute;
+  right: 30px;
+  bottom: 15px;
+  font-size: 15px;
+  color:aqua;
+  border: 1px solid aqua;
+  padding: 5px 15px;
+  border-radius: 3px;
+}
+.zhuli-container .zhuli_btn_off{
+  height: 20px;
+  position: absolute;
+  right: 130px;
+  bottom: 20px;
+  font-size: 15px;
+  color:#555;
+}
+.choujiang-container{
+  position:fixed;
+  width: 60%;
+  height:600rpx;
+  background-color: #ffffff;
+  bottom: 25%;
+  border-radius: 8px;
+  z-index: 99999;
+  margin-left: 20%;
+}
+.choujiang-container .back{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  border-radius: 8px;
+  left: 0;
+  top: 0;
+}
+.choujiang-container .invisible-btn{
+  width: 66px;
+  height: 66px;
+  position: absolute;
+  border-radius: 33px;
+  left: 36%;
+  top: 70%;
+}
+
+.motion_rocket-container{
+  position:fixed;
+  width: 100%;
+  height:500rpx;
+  bottom: 25%;
+  z-index: 99999;
+  margin-left: 0%;
+}
+.motion_rocket-container .back{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
 }

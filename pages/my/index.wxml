@@ -1,75 +1,24 @@
 <view class="container">
-  <view style="height:1rpx;background: #eee;width:100%;"></view>
-  <view class="userInfoBg">
-    <view class="userinfo" bindtap="goToUserInfo">
-      <image wx:if="{{userInfo && userInfo.avatarUrl}}" class="userinfo-avatar" src="{{ userInfo.avatarUrl }}" background-size="cover"></image>
-      <view class="nick-tel">
-        <view class="userinfo-nickname">{{ userInfo.nickName }}</view>
-        <view class="userinfo-tel">{{tel}}</view>
-      </view>
-    </view>
-    <view class="asset">
-      <view class='item' bindtap='goCoupon'>
-        <view>优惠券(张)</view>
-        <view class="bigSize">{{coupon}}</view>
-      </view>
-      <view class='item' bindtap='goAsset'>
-        <view>余额(元)</view>
-        <view class="bigSize">{{balance}}</view>
-      </view>
-      <view class='item' bindtap='goScore'>
-        <view>积分</view>
-        <view class="bigSize">{{score}}</view>
-      </view>
-    </view>
+  <view class="my-container">
+    <image class="back"  src="../../images/tech_dialog.jpg"></image>
+    <image class="head_back" src="../../images/head_back.gif"></image>
+    <image class="head" src="{{userInfo.avatarUrl}}"></image>
+    <text class="name">姓名：{{userInfo.nickName}}    ID: {{id}}</text>
+    <text class="occupation">职位：{{occupation}}</text>
+    <text class="help_index">排名：第{{index}}位</text>
   </view>
-  <view class="order-out-bg">
-    <view class="my-item-no-arrow">
-      我的订单
-    </view>
-    <view class='order-shortcut'>
-      <view class='item' bindtap='goOrder' data-type="0">
-        <image class="icon" src="/images/order/daizhifu.png" background-size="cover"></image>
-        <view class='text'>待支付</view>
-      </view>
-      <view class='item' bindtap='goOrder' data-type="1">
-        <image class="icon" src="/images/order/daifahuo.png" background-size="cover"></image>
-        <view class='text'>待发货</view>
-      </view>
-      <view class='item' bindtap='goOrder' data-type="2">
-        <image class="icon" src="/images/order/daishouhuo.png" background-size="cover"></image>
-        <view class='text'>待收货</view>
-      </view>
-      <view class='item' bindtap='goOrder' data-type="3">
-        <image class="icon" src="/images/order/allorder.png" background-size="cover"></image>
-        <view class='text'>评价</view>
-      </view>
-      <view class='item' bindtap='goShouHou'>
-        <image class="icon" src="/images/order/shouhou.png" background-size="cover"></image>
-        <view class='text'>退款/售后</view>
-      </view>
-      
-
-    </view>
+  
+  <view class="my-item" bindtap="goCoupons" style="margin-top: 430rpx;">
+    <image class="bg" src="../../images/item_bg.png"></image>
+    <view  class="title">我的奖品</view>
   </view>
-  <view class="my-item" style="margin-top: 30rpx" bindtap="goPinOrder">
-    <image style="width: 55rpx; height: 55rpx;" src="/images/no-order.png"></image>
-    <view  style="margin-left: 15rpx; color:#333;">拼团订单</view>
+  <view class="my-item" bindtap="contactUs" style="margin-top: 15rpx;">
+   <image class="bg" src="../../images/item_bg.png"></image>
+    <view class="title" style="top:273px">联系我们</view>
   </view>
-  <view class="my-item" bindtap="goAddress">
-    <image class="icon1" src="/images/ico-addr.png" ></image>
-    <view  style="margin-left: 15rpx; color:#333;">收货地址</view>
+  <view class="my-item" bindtap="aboutUs" style="margin-top: 15rpx;">
+   <image class="bg" src="../../images/item_bg.png"></image>
+    <view class="title" style="top:331px">关于我们</view>
   </view>
-  <view class="my-item" bindtap="contactUs">
-  <image class="icon1" src="/images/tel.png"></image>
-    <view  style="margin-left: 15rpx; color:#333;">客服电话</view>
-  </view>
-  <view class="my-item" bindtap="aboutUs">
-  <image class="icon1" src="/images/peoples.png"></image>
-    <view  style="margin-left: 15rpx; color:#333;">关于我们</view>
-  </view>
-
-
-  <view class="version">邻邻柒科技提供支持 v{{ version }}</view>
 
 </view>
