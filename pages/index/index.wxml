@@ -3,8 +3,7 @@
 </view>
 <!-- welcome.wxml -->
 <view class="warp">
-  
-  <image class="left_cloud" src="../../images/cloud.gif"></image>
+  <image class="cloud_bg" src="../../images/cloud_bg.gif"></image>
   <image class="moon" src="../../images/moon.png"></image>
   <text class="index">当前排名{{index}}名</text>
   <image class="head" src="{{user_head}}" background-size="cover" bindtap="goMyPage"></image>

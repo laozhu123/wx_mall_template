@@ -10,7 +10,6 @@ Page({
   data: {
     user_head: "../../images/default_head.png",
     index: 0,
-    showNotice: true,
     powerImage: "../../images/power_on.png",
     user: undefined,
     openShare: false, // 展示邀请好友
@@ -88,21 +87,7 @@ Page({
     //隐藏由share所产生的loading
     wx.hideLoading()
     var that = this
-    if (that.data.showNotice){
-      var helo = setInterval(function () { that.setData({ showNotice: !that.data.showNotice }) }, 500)
-      setInterval(function () { 
-        var image = "../../images/power_on.png"
-        if (that.data.powerImage == "../../images/power_on.png"){
-          image = "../../images/power_off.png"
-        }
-        that.setData({ powerImage : image}) }, 300)
-      setTimeout(function(){
-          clearInterval(helo)
-          that.setData({
-          showNotice:false
-          })
-        },3000)
-    }
+    
     let userInfo = wx.getStorageSync('userInfo')
     console.log(userInfo)
     if (userInfo){
@@ -118,6 +103,8 @@ Page({
       openShare: false
     })
     this.getUserInfo()
+    
+    
   },
 
   goMyPage: function (e) {
