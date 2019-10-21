@@ -1,0 +1,5 @@
+<view class="warp">
+  <image src="{{imageUrl}}"></image>
+  <image src="{{imageUrl}}"></image>
+  <button type="primary" class="btn" bindtap="goBack">返回燃料库</button>
+</view>

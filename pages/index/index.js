@@ -8,32 +8,64 @@ Page({
    * 页面的初始数据
    */
   data: {
+    height: "100%",
     user_head: "../../images/default_head.png",
     index: 0,
     powerImage: "../../images/power_on.png",
     user: undefined,
     openShare: false, // 展示邀请好友
+    finish: true, //活动结束了
 
     // 展示求助者信息
-    help_img: "../../images/default_head.png",
-    help_nick: "阿姆士特朗",
-    help_index: "1",
-    help_occupation: "资深航天员",
-    show_help: false,
-    hasHelpUser: false,
+    // help_img: "../../images/default_head.png",
+    // help_nick: "阿姆士特朗",
+    // help_index: "1",
+    // help_occupation: "资深航天员",
+    // show_help: false,
+    // hasHelpUser: false,
 
     // 显示加速动图
-    show_speed_up: false,
-    motion_img: "../../images/speed_rocket.gif",
+    // show_speed_up: false,
+    motion_img: "../../images/speed_rocket.gif", 
 
-    // 抽奖显示
-    show_choujiang: false,
+    hasNotSelfAdd: true, //自己是否已经加燃料
+    nowOilNum: 10,  //当前油量
+    addOilNum: 0,
+    showAddOilNum: false,
+
+    progressRotation: {},
+    rocketAnimation: {},
+
+    // 进度条问题
+    percent: "0",
+    sw: 8,
+    pc: 'aqua',
+    pbc: '#cccccc',
+    isActive: true,
+
+    configTotalNum: 100,
+
+    show_down: false,
+    show_up:false,
+
+    peoples: [1,1,1,11,11,1,1,1,1]
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (e) {
+    wx.setNavigationBarTitle({
+      title: '人类登月50周年',
+    })
+    var animation = wx.createAnimation({
+      duration: 0,
+      timingFunction: "linear",
+    })
+    animation.rotate(270).step();
+    this.setData({
+      progressRotation: animation.export()
+    })
     var that = this
     wx.login({
       success: function (res) {
@@ -88,17 +120,16 @@ Page({
     wx.hideLoading()
     var that = this
     
-    let userInfo = wx.getStorageSync('userInfo')
-    console.log(userInfo)
-    if (userInfo){
-      let userHead = that.data.user_head
-      if (userInfo.avatarUrl != ""){
-        userHead = userInfo.avatarUrl
-      }
-      that.setData({
-        user_head: userHead,
-      })
-    }
+    // let userInfo = wx.getStorageSync('userInfo')
+    // if (userInfo){
+    //   let userHead = that.data.user_head
+    //   if (userInfo.avatarUrl != ""){
+    //     userHead = userInfo.avatarUrl
+    //   }
+    //   that.setData({
+    //     user_head: userHead,
+    //   })
+    // }
     that.setData({
       openShare: false
     })
@@ -107,9 +138,36 @@ Page({
     
   },
 
-  goMyPage: function (e) {
+  onPageScroll: function(e){
+    if (e.scrollTop > 560){
+      if (!this.data.show_up){
+        this.setData({ show_up: true })
+      }
+    }else{
+      if (this.data.show_up) {
+        this.setData({ show_up: false })
+      }
+      if (e.scrollTop > 50){
+        if (this.data.show_down){
+          this.setData({show_down: false})
+        }
+      }else{
+        if (!this.data.show_down){
+          this.setData({show_down:true})
+        }
+      }
+    }
+  },
+
+  goDescribe: function (e) {
     wx.navigateTo({
-      url: "/pages/my/index"
+      url: "/pages/active/index"
+    })
+  },
+
+  goCouponPage: function (e){
+    wx.navigateTo({
+      url: "/pages/coupons/index"
     })
   },
 
@@ -118,9 +176,11 @@ Page({
     WXAPI.getUserInfo({}).then(function (res) {
       if (res.code == 0) {
         console.log(res)
+        // var percent = res.data.HelpNum
         that.setData({
           user: res.data,
-          index: res.data.id
+          // percent: 20,
+          // nowOilNum: 300,
         })
       }
     })
@@ -138,6 +198,42 @@ Page({
         // show_choujiang: true
       })
     }
+  },
+
+  selfAdd: function() {
+    let that = this;
+    let userInfo = wx.getStorageSync('userInfo')
+    if (!userInfo) {
+      app.goLoginPageTimeOut()
+    } else {
+      var newPercent= 80
+      var animation = wx.createAnimation({
+        duration: 2000,
+        timingFunction: "linear",
+      })
+      animation.translateY(-1 * (newPercent - that.data.percent) *5).step();
+      that.setData({
+        rocketAnimation: animation.export(),
+        percent: 80,
+        addOilNum: 20,
+        nowOilNum: 20,
+        showAddOilNum: true,
+        show_down: true,
+      })
+      setTimeout(function () { that.setData({ showAddOilNum: false, hasNotSelfAdd: false})},2000)
+    }
+  },
+
+  goDown: function(){
+    wx.pageScrollTo({
+      scrollTop: 604
+    })
+  },
+
+  goUp: function(){
+    wx.pageScrollTo({
+      scrollTop: 0
+    })
   },
 
   closeShareDiv: function () {

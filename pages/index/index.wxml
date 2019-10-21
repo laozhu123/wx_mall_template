@@ -1,27 +1,55 @@
-<view class='bg'>
+<!-- welcome.wxml -->
+<view class="warp" wx:if="{{!finish}}">
+  <!-- <image class="cloud_bg" src="../../images/cloud_bg.gif"></image> -->
+  <image class="moon" src="../../images/moon.png"></image>
+  <!-- <text class="index">当前排名{{index}}名</text> -->
+  <!-- <image class="head" src="{{user_head}}" background-size="cover" bindtap="goMyPage"></image> -->
+  <!-- <image class="cloud_earth" src="../../images/cloud_earth.png"></image> -->
+  <image class="rocket" src="../../images/rocket.gif" animation="{{rocketAnimation}}"></image>
+  <text wx:if="{{showAddOilNum}}" class="add_oil_num">+{{addOilNum}}元</text>
+  <text class="now_oil_num">{{nowOilNum}}元</text>
+
+  <button wx:if="{{hasNotSelfAdd}}" type="primary" class="self_btn" bindtap="selfAdd">加燃料</button>
+  <button wx:else type="primary" class="self_btn" class="other_btn" bindtap="showShareDiv">邀请好友帮我加燃料</button>
+  <!-- <image class="power" src="{{powerImage}}" bindtap="showShareDiv"></image> -->
+
+  <progress class="progress" percent="{{percent}}" show-info="{{isSi}}" stroke-width="{{sw}}" activeColor="{{pc}}" backgroundColor="{{pbc}}" active="{{isActive}}" active-mode="forwards" animation="{{progressRotation}}">
+  </progress>
+  <image wx:if="{{show_down}}" bindtap="goDown" src="../../images/arrow_down.png" class="arrow_down"></image>
+</view>
+
+<view class="second_warp" wx:if="{{nowOilNum > 0}}">
+  <image src="../../images/honbao_bg.png" class="honhao_bg"></image>
+  <image wx:if="{{show_up}}" bindtap="goUp" src="../../images/arrow_up.png" class="arrow_up"></image>
+  <text class="t1">砍价后的最终金额</text>
+  <text class="t2">¥{{nowOilNum}}</text>
+  <button wx:if="{{finish}}" type="primary" class="btn" bindtap="goCouponPage">查看我的优惠券</button>
+  <button wx:else type="primary" disabled="true" class="btn">使用优惠券</button>
+  <text class="num">已砍价{{nowNum}}/{{max}}次</text>
+
+  <scroll-view class="sv" scroll-y="true">
+    <view class="detail-box" wx:for-items="{{peoples}}" wx:key="*this">
+      <image src="../../images/wx.png" class="head"></image>
+      <text class="name">ruipol</text>
+      <text class="time">21:35</text>
+      <text class="money">117元</text>
+    </view>
+  </scroll-view>
+
 
 </view>
-<!-- welcome.wxml -->
-<view class="warp">
-  <image class="cloud_bg" src="../../images/cloud_bg.gif"></image>
-  <image class="moon" src="../../images/moon.png"></image>
-  <text class="index">当前排名{{index}}名</text>
-  <image class="head" src="{{user_head}}" background-size="cover" bindtap="goMyPage"></image>
-  <image class="cloud_earth" src="../../images/cloud_earth.png"></image>
-  <image class="rocket" src="../../images/rocket.gif"></image>
-  <text wx:if="{{showNotice}}" class="speed_up">点击加速</text>
-  <image class="power" src="{{powerImage}}" bindtap="showShareDiv"></image>
 
-  <view wx:if="{{openShare}}" class="shareFloatDiv1"></view>
+<button type="primary" class="describe" bindtap="goDescribe">活动说明</button>
+<!-- <view wx:if="{{openShare}}" class="shareFloatDiv1"></view>
   <view wx:if="{{openShare}}" class="invite-container">
     <image class="back"  src="../../images/tech_dialog.jpg"></image>
-    <text class="content">邀请好友来助力</text>
+    <text class="content">邀请好友帮加燃料</text>
     <text class="invite_btn_off" bindtap="closeShareDiv">取消</text>
     <text class="invite_btn_on">邀请</text>
     <button type="primary" plain="true" open-type="share" class="invite_btn" style="opacity:0"></button>
-  </view>
+  </view> -->
 
-  <view wx:if="{{show_help}}" class="shareFloatDiv1"></view>
+<!-- <view wx:if="{{show_help}}" class="shareFloatDiv1"></view>
   <view wx:if="{{show_help}}" class="zhuli-container">
     <image class="back"  src="../../images/tech_dialog.jpg"></image>
     <image class="head_back" src="../../images/head_back.gif"></image>
@@ -31,16 +59,15 @@
     <text class="help_index">排名：第{{help_index}}位</text>
     <text class="zhuli_btn_off" bindtap="zhuli_cancel">取消</text>
     <text class="zhuli_btn_on" bindtap="zhuli">助力</text>
-  </view>
+  </view> -->
 
-  <view wx:if="{{show_speed_up}}" class="shareFloatDiv1"></view>
+<!-- <view wx:if="{{show_speed_up}}" class="shareFloatDiv1"></view>
   <view wx:if="{{show_speed_up}}" class="motion_rocket-container">
     <image class="back"  src="../../images/speed_rocket.gif"></image>
-  </view>
+  </view> -->
 
-  <view wx:if="{{show_choujiang}}" class="shareFloatDiv1"></view>
+<!-- <view wx:if="{{show_choujiang}}" class="shareFloatDiv1"></view>
   <view wx:if="{{show_choujiang}}" class="choujiang-container">
     <image class="back"  src="../../images/choujiang.png"></image>
     <view class="invisible-btn" bindtap="choujiang"></view>
-  </view>
-</view>
+  </view> -->

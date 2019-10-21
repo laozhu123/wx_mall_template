@@ -3,7 +3,9 @@
     "pages/index/index",
     "pages/my/index",
     "pages/authorize/index",
-    "pages/coupons-new/index"
+    "pages/coupons-new/index",
+    "pages/active/index",
+    "pages/coupons/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

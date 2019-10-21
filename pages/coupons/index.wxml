@@ -1,0 +1,18 @@
+<image src="{{couponUrl}}" class="coupon"></image>
+<scroll-view wx:if="{{!hasGet}}" class="sv" scroll-y="true">
+  <view class="detail-box" wx:for-items="{{shops}}" wx:key="*this" data-id="{{item.id}}" bindtap="checkChange">
+    <checkbox class="check" checked="{{item.id==selectId}}">{{item.Name}}</checkbox>
+
+  </view>
+</scroll-view>
+
+<view wx:if="{{hasGet}}" class="phone_name_container">
+  <text>1777878787</text>
+  <text>zzhelo</text>
+</view>
+
+<view wx:if="{{!hasGet}}">
+  <button wx:if="{{selectId==0}}" type="primary" class="btn1" disabled="true">请先选择校区再使用优惠券</button>
+  <button wx:else type="primary" class="btn1" bindtap="getCoupon">确认领取</button>
+</view>
+<button wx:else type="primary" class="btn1" disabled="true">已领取</button>
